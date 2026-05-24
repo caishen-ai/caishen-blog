@@ -1,0 +1,1391 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI数字产品 · 一人公司效率工具套装</title>
+  <meta name="description" content="4款精心打造的AI数字产品，助你从零开始构建一人事业。Prompt宝典、商业计划模板、内容日历、AI赚钱指南——一套搞定。">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==============================
+       CSS Variables — Warm Light Palette
+       ============================== */
+    :root {
+      --bg-primary: #fdfaf5;
+      --bg-secondary: #f7f2e8;
+      --bg-tertiary: #efe8d8;
+      --bg-card: #fffdf9;
+      --bg-highlight: #fef3e4;
+
+      --text-primary: #1f1a14;
+      --text-secondary: #5c5348;
+      --text-tertiary: #8a7e6e;
+      --text-inverse: #fdfaf5;
+
+      --accent: #c75b39;
+      --accent-hover: #a8492b;
+      --accent-light: #fce4d8;
+      --accent-muted: oklch(0.75 0.08 45);
+
+      --gold: #b8943d;
+      --gold-light: #f5e7c1;
+      --olive: #6b7c4e;
+      --rust: #a65d3a;
+
+      --border: #e8e0d4;
+      --border-light: #f0ebe0;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.04);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+      --shadow-xl: 0 24px 64px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.04);
+
+      --font-display: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
+      --font-body: 'Source Sans 3', 'Noto Sans SC', -apple-system, sans-serif;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+      --content-max: 1200px;
+      --content-narrow: 780px;
+    }
+
+    /* ==============================
+       Reset & Base
+       ============================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 200ms var(--ease-out);
+    }
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* ==============================
+       Typography Scale (1.25 ratio)
+       ============================== */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    h1 { font-size: clamp(2.5rem, 5vw, 4.2rem); }
+    h2 { font-size: clamp(2rem, 3.5vw, 2.8rem); }
+    h3 { font-size: clamp(1.4rem, 2vw, 1.75rem); }
+    h4 { font-size: 1.25rem; }
+
+    p { max-width: 65ch; }
+
+    .text-accent { color: var(--accent); }
+    .text-gold { color: var(--gold); }
+    .text-secondary { color: var(--text-secondary); }
+    .text-tertiary { color: var(--text-tertiary); }
+
+    /* ==============================
+       Utility
+       ============================== */
+    .container {
+      width: 100%;
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .container-narrow {
+      max-width: var(--content-narrow);
+    }
+
+    @media (min-width: 768px) {
+      .container { padding: 0 48px; }
+    }
+
+    /* ==============================
+       Buttons
+       ============================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 32px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 250ms var(--ease-out);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--text-inverse);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+      color: var(--text-inverse);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+    }
+    .btn-outline:hover {
+      background: var(--accent-light);
+      color: var(--accent-hover);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #fff;
+    }
+    .btn-gold:hover {
+      background: #a07e2e;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(184,148,61,0.3);
+      color: #fff;
+    }
+
+    .btn-lg {
+      padding: 18px 40px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+    }
+    .btn-xl {
+      padding: 22px 48px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+    }
+
+    /* ==============================
+       Hero Section
+       ============================== */
+    .hero {
+      position: relative;
+      padding: 80px 0 64px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -60px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--gold-light) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (min-width: 900px) {
+      .hero {
+        padding: 100px 0 80px;
+      }
+      .hero-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-highlight);
+      border: 1px solid var(--accent-light);
+      color: var(--accent);
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    .hero-title {
+      margin-bottom: 20px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.875rem;
+      color: var(--text-tertiary);
+    }
+    .hero-trust span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-card-stack {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 4 / 5;
+    }
+    .hero-card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      text-align: center;
+      transition: transform 400ms var(--ease-out);
+    }
+    .hero-card:nth-child(1) {
+      z-index: 4;
+      transform: rotate(-3deg);
+    }
+    .hero-card:nth-child(2) {
+      z-index: 3;
+      transform: rotate(1deg) translateY(8px);
+    }
+    .hero-card:nth-child(3) {
+      z-index: 2;
+      transform: rotate(-1deg) translateY(16px);
+    }
+    .hero-card:nth-child(4) {
+      z-index: 1;
+      transform: rotate(3deg) translateY(24px);
+    }
+
+    @media (hover: hover) {
+      .hero-card-stack:hover .hero-card:nth-child(1) {
+        transform: rotate(-8deg) translateX(-20px);
+      }
+      .hero-card-stack:hover .hero-card:nth-child(2) {
+        transform: rotate(3deg) translateY(8px) translateX(-8px);
+      }
+      .hero-card-stack:hover .hero-card:nth-child(3) {
+        transform: rotate(-2deg) translateY(16px) translateX(8px);
+      }
+      .hero-card-stack:hover .hero-card:nth-child(4) {
+        transform: rotate(8deg) translateY(24px) translateX(20px);
+      }
+    }
+
+    .hero-card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    .hero-card-label {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    /* ==============================
+       Section Common
+       ============================== */
+    section {
+      padding: 80px 0;
+    }
+    @media (min-width: 768px) {
+      section { padding: 100px 0; }
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-header .section-desc {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Divider */
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin: 0 auto 24px;
+    }
+
+    /* ==============================
+       Products Grid
+       ============================== */
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    @media (min-width: 640px) {
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .product-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px 28px;
+      transition: all 300ms var(--ease-out);
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent-light);
+    }
+
+    .product-card-best {
+      border-color: var(--gold);
+      border-width: 2px;
+      box-shadow: var(--shadow-md);
+    }
+    .product-badge {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--gold);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+
+    .product-icon {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+    }
+    .product-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .product-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .product-features {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+    .product-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 4px 0;
+      line-height: 1.5;
+    }
+    .product-features li::before {
+      content: '✓';
+      flex-shrink: 0;
+      color: var(--olive);
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    .product-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+    }
+    .product-price {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .product-price-cny {
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+    }
+
+    /* ==============================
+       Bundle Section
+       ============================== */
+    .bundle-section {
+      background: var(--bg-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+    .bundle-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--gold), var(--olive), var(--gold), var(--accent));
+    }
+
+    .bundle-card {
+      background: var(--bg-card);
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      padding: 48px 36px;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .bundle-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 6px 18px;
+      border-radius: 100px;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+    .bundle-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 12px;
+    }
+    .bundle-desc {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .bundle-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 24px;
+      list-style: none;
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+    .bundle-items li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .bundle-pricing {
+      margin-bottom: 28px;
+    }
+    .bundle-price-original {
+      font-size: 1rem;
+      color: var(--text-tertiary);
+      text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+    .bundle-price-now {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .bundle-price-cny {
+      font-size: 1rem;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+    }
+    .bundle-savings {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--accent-light);
+      color: var(--accent-hover);
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-top: 12px;
+    }
+
+    /* ==============================
+       Why Section (对比表格风格)
+       ============================== */
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    @media (min-width: 768px) {
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .why-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .why-item {
+      text-align: center;
+      padding: 32px 20px;
+    }
+    .why-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+    .why-name {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .why-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ==============================
+       Testimonial
+       ============================== */
+    .testimonial {
+      background: var(--bg-highlight);
+      border-left: 4px solid var(--accent);
+      padding: 32px 36px;
+      border-radius: 0 12px 12px 0;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .testimonial-text {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .testimonial-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .testimonial-role {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+    }
+
+    /* ==============================
+       FAQ
+       ============================== */
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border-light);
+      padding: 28px 0;
+    }
+    .faq-item:first-child {
+      border-top: 1px solid var(--border-light);
+    }
+    .faq-q {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      cursor: default;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .faq-q-icon {
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .faq-a {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-left: 28px;
+    }
+
+    /* ==============================
+       Final CTA
+       ============================== */
+    .cta-section {
+      text-align: center;
+      padding: 80px 0;
+      position: relative;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 80%, var(--accent-light) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+    .cta-title {
+      margin-bottom: 16px;
+    }
+    .cta-desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin: 0 auto 32px;
+    }
+    .cta-btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .cta-guarantee {
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* ==============================
+       Footer
+       ============================== */
+    .footer {
+      border-top: 1px solid var(--border-light);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+    }
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    @media (min-width: 640px) {
+      .footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+
+    /* ==============================
+       Entrance Animations
+       ============================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 100ms; }
+    .reveal-delay-2 { transition-delay: 200ms; }
+    .reveal-delay-3 { transition-delay: 300ms; }
+    .reveal-delay-4 { transition-delay: 400ms; }
+
+    /* ==============================
+       Reduced Motion
+       ============================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    /* Payment Modal */
+    .payment-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .payment-modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+    }
+    .payment-modal-content {
+      position: relative;
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 40px 32px;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: var(--shadow-xl);
+      text-align: center;
+    }
+    .payment-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-tertiary);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 200ms;
+    }
+    .payment-modal-close:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    @media (max-width: 640px) {
+      .payment-modal-content {
+        padding: 28px 20px;
+        max-width: 100%;
+      }
+    }
+
+    /* ==============================
+       Mobile Tweaks
+       ============================== */
+    @media (max-width: 640px) {
+      .hero-card-stack {
+        max-width: 240px;
+        margin: 0 auto;
+      }
+      .bundle-card {
+        padding: 32px 20px;
+      }
+      .bundle-price-now {
+        font-size: 2.2rem;
+      }
+      .product-card {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==============================
+     HERO
+     ============================== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-text">
+        <div class="hero-badge reveal">
+          <span class="hero-badge-dot"></span>
+          2026 数字产品套装
+        </div>
+
+        <h1 class="hero-title reveal reveal-delay-1">
+          一个人，<br>
+          <em>零成本</em>启动<br>
+          你的数字事业
+        </h1>
+
+        <p class="hero-subtitle reveal reveal-delay-2">
+          4款精心打磨的AI数字产品，覆盖提示词工程、商业规划、内容运营、AI变现全链路——帮你从「想」到「赚」，每一步都有工具可依。
+        </p>
+
+        <div class="hero-cta-group reveal reveal-delay-3">
+          <a href="#bundle" class="btn btn-gold btn-lg">🎯 一键打包 · 省30%</a>
+          <a href="#products" class="btn btn-outline btn-lg">查看全部产品 ↓</a>
+        </div>
+
+        <div class="hero-trust reveal reveal-delay-3">
+          <span>💳 安全支付</span>
+          <span>📥 即时下载</span>
+          <span>🔄 永久更新</span>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal reveal-delay-2">
+        <div class="hero-card-stack">
+          <div class="hero-card">
+            <div class="hero-card-icon">📝</div>
+            <div class="hero-card-label">Prompt 宝典</div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-icon">📊</div>
+            <div class="hero-card-label">商业计划书</div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-icon">📅</div>
+            <div class="hero-card-label">内容日历</div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-icon">💰</div>
+            <div class="hero-card-label">AI赚钱指南</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     PRODUCTS
+     ============================== -->
+<section id="products">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">我们的产品</p>
+      <h2 class="section-title">4款利器，覆盖每个关键环节</h2>
+      <p class="section-desc">从AI提示词到商业变现，一人公司的核心能力，我们帮你封装成即用的数字产品。</p>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- Product 1 -->
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-icon">📝</div>
+        <h3 class="product-name">AI Prompt 宝典 2026</h3>
+        <p class="product-desc">200+专业提示词模板，覆盖内容创作、商业决策、编程、营销等10大场景。</p>
+        <ul class="product-features">
+          <li>让AI效率提升10倍</li>
+          <li>每个提示词都经过实战验证</li>
+          <li>直接复制修改即用</li>
+        </ul>
+        <div class="product-price-row">
+          <span class="product-price">$9.99</span>
+          <span class="product-price-cny">约 ¥69</span>
+        </div>
+        <button class="btn btn-primary buy-btn" style="width:100%;" data-product="prompt-bible" data-price="69" data-name="AI Prompt 宝典 2026" onclick="showPayment(this)">💰 立即购买 ¥69</button>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card product-card-best reveal reveal-delay-2">
+        <span class="product-badge">🔥 热门</span>
+        <div class="product-icon">📊</div>
+        <h3 class="product-name">一人公司商业计划书模板</h3>
+        <p class="product-desc">Notion全功能商业计划模板，专为一人公司设计。</p>
+        <ul class="product-features">
+          <li>商业模式画布</li>
+          <li>收入模型计算器</li>
+          <li>90天路线图</li>
+          <li>关键指标仪表盘</li>
+        </ul>
+        <div class="product-price-row">
+          <span class="product-price">$14.99</span>
+          <span class="product-price-cny">约 ¥99</span>
+        </div>
+        <button class="btn btn-primary buy-btn" style="width:100%;" data-product="business-plan" data-price="99" data-name="一人公司商业计划书模板" onclick="showPayment(this)">💰 立即购买 ¥99</button>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card reveal reveal-delay-3">
+        <div class="product-icon">📅</div>
+        <h3 class="product-name">社交媒体内容日历模板</h3>
+        <p class="product-desc">90天社交媒体内容策略系统，持续输出高质量内容。</p>
+        <ul class="product-features">
+          <li>内容黄金比例框架</li>
+          <li>周度月度规划表</li>
+          <li>各平台最佳发布时段</li>
+          <li>数据追踪</li>
+        </ul>
+        <div class="product-price-row">
+          <span class="product-price">$12.99</span>
+          <span class="product-price-cny">约 ¥89</span>
+        </div>
+        <button class="btn btn-primary buy-btn" style="width:100%;" data-product="content-calendar" data-price="89" data-name="社交媒体内容日历模板" onclick="showPayment(this)">💰 立即购买 ¥89</button>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card reveal reveal-delay-4">
+        <div class="product-icon">💰</div>
+        <h3 class="product-name">AI赚钱完全指南 2026</h3>
+        <p class="product-desc">零基础零成本，一个人月入过万的实操指南。</p>
+        <ul class="product-features">
+          <li>10章系统教程</li>
+          <li>真实案例拆解</li>
+          <li>90天行动计划</li>
+          <li>避坑指南</li>
+        </ul>
+        <div class="product-price-row">
+          <span class="product-price">$19.99</span>
+          <span class="product-price-cny">约 ¥139</span>
+        </div>
+        <button class="btn btn-primary buy-btn" style="width:100%;" data-product="ai-money-guide" data-price="139" data-name="AI赚钱完全指南 2026" onclick="showPayment(this)">💰 立即购买 ¥139</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     BUNDLE
+     ============================== -->
+<section class="bundle-section" id="bundle">
+  <div class="container">
+    <div class="bundle-card reveal">
+      <div class="bundle-badge">⭐ 最超值选择</div>
+      <h2 class="bundle-title">一人公司 · 全能套装</h2>
+      <p class="bundle-desc">一次购买，获取全部4款产品。从提示词到变现，全套工具打通你的数字事业。</p>
+
+      <ul class="bundle-items">
+        <li>📝 AI Prompt 宝典 2026</li>
+        <li>📊 商业计划书模板</li>
+        <li>📅 内容日历模板</li>
+        <li>💰 AI赚钱完全指南</li>
+      </ul>
+
+      <div class="bundle-pricing">
+        <div class="bundle-price-original">原价 $57.96</div>
+        <div class="bundle-price-now">$39.99</div>
+        <div class="bundle-price-cny">约 ¥279</div>
+        <div class="bundle-savings">🎉 立省 $17.97（30%）</div>
+      </div>
+
+      <button class="btn btn-gold btn-xl buy-btn" data-product="bundle" data-price="289" data-name="一人公司·全能套装" onclick="showPayment(this)">💰 立即购买 ¥289</button>
+      <p style="font-size:0.85rem;color:var(--text-tertiary);margin-top:12px;">30天无理由退款，零风险购买</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     WHY US
+     ============================== -->
+<section>
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">为什么选择我们</p>
+      <h2 class="section-title">不是模板堆砌，是可执行系统</h2>
+      <p class="section-desc">市面上数字产品千千万，我们的不同在于——每个产品都来自真实的一人公司实战。</p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-item reveal reveal-delay-1">
+        <div class="why-icon">⚡</div>
+        <h4 class="why-name">即买即用</h4>
+        <p class="why-desc">无需学习曲线，下载后直接复制、修改、投入使用。</p>
+      </div>
+      <div class="why-item reveal reveal-delay-2">
+        <div class="why-icon">🛠️</div>
+        <h4 class="why-name">实战验证</h4>
+        <p class="why-desc">每个模板、每条提示词都经过真实项目检验，不是纸上谈兵。</p>
+      </div>
+      <div class="why-item reveal reveal-delay-3">
+        <div class="why-icon">🔄</div>
+        <h4 class="why-name">持续更新</h4>
+        <p class="why-desc">AI变化快，我们的产品也跟随迭代。一次购买，永久享受更新。</p>
+      </div>
+      <div class="why-item reveal reveal-delay-4">
+        <div class="why-icon">💬</div>
+        <h4 class="why-name">社群支持</h4>
+        <p class="why-desc">加入一人公司创作者社群，交流经验、提问答疑，你不是一个人。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     TESTIMONIAL
+     ============================== -->
+<section style="padding-top:0;">
+  <div class="container container-narrow">
+    <div class="testimonial reveal">
+      <p class="testimonial-text">"买了AI赚钱指南和Prompt宝典，两周内就用提示词模板优化了我的小红书内容流程，省了至少一半时间。商业计划书模板让我理清了盈利模型，现在每月稳定有 ¥8000+ 副业收入。真心推荐给想搞副业的人。"</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">L</div>
+        <div>
+          <div class="testimonial-name">小李</div>
+          <div class="testimonial-role">内容创业者 · 使用套装3个月</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     FAQ
+     ============================== -->
+<section id="faq">
+  <div class="container container-narrow">
+    <div class="section-header reveal">
+      <p class="section-label">常见问题</p>
+      <h2 class="section-title">你可能有疑问</h2>
+    </div>
+
+    <div class="faq-list reveal reveal-delay-1">
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          购买后如何获取产品？
+        </div>
+        <div class="faq-a">
+          支付成功后，你将立即收到一封包含下载链接的邮件。所有产品以PDF格式可即时下载。也可以直接点击产品页面的下载按钮获取。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          支持退款吗？
+        </div>
+        <div class="faq-a">
+          支持！购买后30天内，如果你觉得产品没有达到预期，发送邮件即可无条件全额退款。我们不问原因。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          Notion模板需要付费账号吗？
+        </div>
+        <div class="faq-a">
+          不需要。Notion免费版完全够用，你只需注册一个免费Notion账号即可使用所有模板功能。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          产品会更新吗？更新收费吗？
+        </div>
+        <div class="faq-a">
+          会的。AI领域变化极快，我们会持续跟踪最新趋势并更新产品。所有已购用户免费获取更新，无需二次付费。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          我是纯新手，适合哪个产品？
+        </div>
+        <div class="faq-a">
+          推荐从「AI赚钱完全指南 2026」开始，这是为零基础设计的系统教程。如果想快速提升AI使用效率，「Prompt 宝典」是最佳选择。当然，套装最划算也最全面。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          支付安全吗？
+        </div>
+        <div class="faq-a">
+          我们使用行业标准支付网关处理交易，全程加密。我们不会存储你的支付信息。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     FINAL CTA
+     ============================== -->
+<section class="cta-section" id="buy-bundle">
+  <div class="container">
+    <div class="cta-content reveal">
+      <h2 class="cta-title">准备好开始了吗？</h2>
+      <p class="cta-desc">4款产品，一个套装，30天零风险试用。<br>今天就开始构建你的一人数字事业。</p>
+
+      <div class="cta-btn-group">
+        <button class="btn btn-gold btn-xl buy-btn" data-product="bundle" data-price="289" data-name="一人公司·全能套装" onclick="showPayment(this)">🚀 购买套装 · ¥289</button>
+        <a href="#products" class="btn btn-outline btn-lg">查看单件产品</a>
+      </div>
+
+      <p class="cta-guarantee">
+        🔒 30天无理由退款 · 即时下载 · 永久更新
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     FOOTER
+     ============================== -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>© 2026 AI数字产品 · 一人公司效率工具</span>
+    <span>
+      <a href="#faq">常见问题</a> · 
+      <a href="#">隐私政策</a> · 
+      <a href="#">联系我们</a>
+    </span>
+  </div>
+</footer>
+
+<!-- ==============================
+     SCROLL REVEAL
+     ============================== -->
+<script>
+(function() {
+  'use strict';
+
+  // Intersection Observer for scroll reveal
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -60px 0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Add visible class to hero elements immediately (before scroll)
+  setTimeout(function() {
+    document.querySelectorAll('.hero .reveal').forEach(function(el) {
+      el.classList.add('visible');
+    });
+  }, 100);
+
+  /* ===== Payment Modal Functions ===== */
+  function showPayment(btn) {
+    var name = btn.getAttribute('data-name');
+    var price = btn.getAttribute('data-price');
+    document.getElementById('payment-title').textContent = '购买 · ' + name;
+    document.getElementById('payment-price-display').textContent = '¥' + price;
+    document.getElementById('payment-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePayment() {
+    document.getElementById('payment-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function copyBankInfo() {
+    var text = '6217931870081744 浦发银行';
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function() {
+        alert('✅ 银行卡号已复制：' + text);
+      });
+    } else {
+      prompt('请手动复制银行卡号：', text);
+    }
+  }
+})();
+</script>
+
+<!-- 支付弹窗 -->
+<div id="payment-modal" class="payment-modal" style="display:none;">
+  <div class="payment-modal-overlay" onclick="closePayment()"></div>
+  <div class="payment-modal-content">
+    <button class="payment-modal-close" onclick="closePayment()">×</button>
+    <h3 id="payment-title" style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:8px;"></h3>
+    <p id="payment-price-display" style="font-size:2rem;font-weight:800;color:var(--accent);margin-bottom:20px;"></p>
+    
+    <div style="background:var(--bg-highlight);border-radius:12px;padding:24px;margin-bottom:20px;text-align:left;">
+      <h4 style="font-size:1rem;margin-bottom:12px;">📱 购买方式</h4>
+      <p style="margin-bottom:8px;"><strong>1. 银行转账</strong></p>
+      <div style="background:#fff;border:1.5px dashed var(--accent);border-radius:8px;padding:16px;margin-bottom:12px;font-family:monospace;">
+        浦发银行<br>
+        卡号：<strong style="font-size:1.1rem;letter-spacing:2px;">6217 9318 7008 1744</strong>
+      </div>
+      <p style="margin-bottom:8px;"><strong>2. 微信转账</strong></p>
+      <p style="color:var(--text-secondary);font-size:0.9rem;">添加微信：<strong>17744247406</strong></p>
+      
+      <div style="margin-top:12px;padding:12px;background:#fff;border-radius:8px;border-left:3px solid var(--gold);">
+        <p style="font-size:0.85rem;color:var(--text-secondary);">
+          💡 <strong>付款后请截图发送到微信 17744247406</strong>，注明购买的产品名称。我会在<strong>10分钟内</strong>将产品文件发送给你。
+        </p>
+      </div>
+
+      <div style="margin-top:16px;padding:16px;background:#fff8f5;border-radius:8px;border:1px dashed var(--accent);text-align:center;">
+        <p style="font-size:0.9rem;color:var(--accent);margin-bottom:8px;">
+          🤔 <strong>还不确定？先咨询再购买</strong>
+        </p>
+        <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:8px;">
+          加微信 <strong style="color:var(--accent);">17744247406</strong>，告诉我你的需求，我帮你选最适合的产品
+        </p>
+        <a href="https://caishen-ai.github.io/caishen-blog/ai-customer-service.html#contact" target="_blank" style="display:inline-block;background:var(--accent);color:#fff;padding:8px 20px;border-radius:20px;text-decoration:none;font-size:0.9rem;font-weight:600;">💬 先聊聊 →</a>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-primary" style="flex:1;" onclick="copyBankInfo()">📋 复制银行卡号</button>
+      <button class="btn btn-outline" style="flex:1;" onclick="closePayment()">关闭</button>
+    </div>
+
+    <p style="font-size:0.8rem;color:var(--text-tertiary);margin-top:12px;">🔒 30天无理由退款 · 永久更新</p>
+  </div>
+</div>
+
+</body>
+</html>
