@@ -3,55 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>联系财神 | AI客服搭建咨询</title>
-<meta name="description" content="联系财神AI团队，获取AI智能客服搭建咨询。填写需求表单，12小时内回复。">
-<link rel="stylesheet" href="style.css">
+<title>AI客服免费咨询 — 财神AI</title>
+<meta name="description" content="告诉我你的行业和需求，我们帮你定制AI客服方案。免费咨询，24小时内回复。">
+<meta property="og:title" content="AI客服免费咨询 — 财神AI">
+<meta property="og:description" content="免费咨询AI客服方案，餐饮/电商/零售/教育行业专属定制">
 <style>
-.contact-hero{text-align:center;padding:48px 20px;background:linear-gradient(135deg,#ff6b35,#f7931e);color:#fff;border-radius:16px;margin-bottom:32px}
-.contact-hero h1{font-size:2em;margin:0 0 8px}
-form{max-width:600px;margin:0 auto;padding:32px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-label{display:block;font-weight:600;margin:16px 0 6px}
-input,textarea,select{width:100%;padding:10px;border:2px solid #e5e7eb;border-radius:8px;font-size:1em;font-family:inherit}
-input:focus,textarea:focus,select:focus{outline:none;border-color:#ff6b35}
-button{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#ff6b35,#f7931e);color:#fff;border:none;border-radius:8px;font-size:1.1em;font-weight:700;cursor:pointer;margin-top:24px}
-.contact-info{text-align:center;margin-top:40px;padding:24px;background:#fff8f5;border-radius:12px}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: linear-gradient(135deg, #fef6e4 0%, #f3d2c1 100%); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+.container { background:#fff; border-radius:20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); max-width:520px; width:100%; padding:40px 32px; }
+h1 { font-size:28px; color:#e63946; margin-bottom:8px; }
+.subtitle { color:#6c757d; font-size:15px; margin-bottom:28px; line-height:1.6; }
+.form-group { margin-bottom:20px; }
+label { display:block; font-weight:600; color:#2b2d42; margin-bottom:6px; font-size:14px; }
+label .required { color:#e63946; }
+input, select, textarea { width:100%; padding:12px 16px; border:2px solid #e9ecef; border-radius:10px; font-size:15px; transition:border-color 0.2s; font-family:inherit; }
+input:focus, select:focus, textarea:focus { outline:none; border-color:#e63946; }
+textarea { min-height:100px; resize:vertical; }
+.btn { background:#e63946; color:#fff; border:none; border-radius:10px; padding:14px 32px; font-size:16px; font-weight:700; cursor:pointer; width:100%; transition:background 0.2s, transform 0.1s; }
+.btn:hover { background:#c1121f; }
+.btn:active { transform:scale(0.98); }
+.footer-note { margin-top:20px; text-align:center; color:#6c757d; font-size:13px; }
+.footer-note a { color:#e63946; text-decoration:none; }
+.alt-contact { margin-top:16px; padding:16px; background:#f8f9fa; border-radius:10px; text-align:center; font-size:14px; color:#495057; }
+.alt-contact strong { color:#e63946; }
+.success-msg { display:none; background:#d4edda; color:#155724; padding:16px; border-radius:10px; margin-bottom:20px; font-size:14px; text-align:center; }
+@media(max-width:480px) { .container { padding:24px 20px; } h1 { font-size:24px; } }
 </style>
 </head>
 <body>
-<header class="site-header"><h1>AI赚钱博客</h1><p>用AI搞钱的实操指南 · 零基础也能上手</p></header>
-<nav class="site-nav"><a href="index.html">首页</a> <a href="ai-customer-service.html">AI客服服务</a> <a href="about.html">关于我</a></nav>
-<main class="container-wide">
-<div class="contact-hero"><h1>联系财神 · AI客服搭建咨询</h1><p>填写下方表单，12小时内给你定制方案</p></div>
-<form action="mailto:729616934@qq.com" method="post" enctype="text/plain">
-<label>你的称呼 *</label><input type="text" name="name" required placeholder="姓先生/李女士">
-<label>联系方式 *</label><input type="text" name="contact" required placeholder="微信/手机/邮箱">
-<label>业务类型</label>
-<select name="business_type">
-<option value="">请选择</option>
-<option value="catering">餐饮</option>
-<option value="ecommerce">电商</option>
-<option value="education">教育</option>
-<option value="beauty">美容/美业</option>
-<option value="realestate">房产</option>
-<option value="medical">医疗</option>
-<option value="other">其他</option>
-</select>
-<label>预算范围</label>
-<select name="budget">
-<option value="">请选择</option>
-<option value="499">基础版 499元</option>
-<option value="1499">高级版 1499元(推荐)</option>
-<option value="2999+">企业定制 2999+</option>
-<option value="unknown">还不确定</option>
-</select>
-<label>具体需求描述</label><textarea name="needs" rows="5" placeholder="告诉我你的业务情况、需要几个平台、有没有特殊要求..."></textarea>
-<button type="submit">提交需求 →</button>
-</form>
-<div class="contact-info">
-<h3>其他联系方式</h3>
-<p>邮箱: 729616934@qq.com | 微信: 17744247406</p>
+<div class="container">
+  <h1>🤖 AI客服免费咨询</h1>
+  <p class="subtitle">告诉我你的行业和需求，我们帮你定制AI客服方案。<br>免费咨询，24小时内回复。</p>
+
+  <div class="success-msg" id="successMsg">
+    ✅ 提交成功！我们会在24小时内联系你。
+  </div>
+
+  <form id="contactForm">
+    <!-- Formspree endpoint: 免费50次/月, 替换为你的Formspree ID -->
+    <!-- 当前使用mailto作为后备，注册Formspree后替换action -->
+
+    <div class="form-group">
+      <label>姓名 <span class="required">*</span></label>
+      <input type="text" name="name" id="name" placeholder="怎么称呼你？" required>
+    </div>
+
+    <div class="form-group">
+      <label>微信号 / 手机号 <span class="required">*</span></label>
+      <input type="text" name="contact" id="contact" placeholder="方便我们联系你" required>
+    </div>
+
+    <div class="form-group">
+      <label>行业类型 <span class="required">*</span></label>
+      <select name="industry" id="industry" required>
+        <option value="">请选择行业</option>
+        <option value="餐饮">餐饮</option>
+        <option value="电商">电商</option>
+        <option value="零售">零售</option>
+        <option value="教育">教育</option>
+        <option value="其他">其他</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>需求描述 <span class="required">*</span></label>
+      <textarea name="message" id="message" placeholder="请描述你的业务场景、规模、期望解决的问题" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>预算范围</label>
+      <select name="budget" id="budget">
+        <option value="">请选择（可选）</option>
+        <option value="0-1000元">0-1000元</option>
+        <option value="1000-5000元">1000-5000元</option>
+        <option value="5000元以上">5000元以上</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn">📩 提交咨询</button>
+  </form>
+
+  <div class="alt-contact">
+    或直接联系：<strong>微信 17744247406</strong>
+  </div>
+
+  <p class="footer-note">
+    提交即表示同意我们通过你提供的方式联系你。
+  </p>
 </div>
-</main>
-<footer class="site-footer"><p>2026 AI赚钱博客 · 用AI开启你的副业之旅</p></footer>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  var name = document.getElementById('name').value;
+  var contact = document.getElementById('contact').value;
+  var industry = document.getElementById('industry').value;
+  var message = document.getElementById('message').value;
+  var budget = document.getElementById('budget').value;
+
+  // 构建mailto链接（后备方案）
+  var subject = 'AI客服咨询 - ' + industry + '行业 - ' + name;
+  var body = '姓名：' + name + '\n';
+  body += '联系方式：' + contact + '\n';
+  body += '行业：' + industry + '\n';
+  body += '预算：' + (budget || '未选择') + '\n\n';
+  body += '需求描述：\n' + message + '\n\n';
+  body += '---\n来自财神AI客服咨询表单';
+
+  // 优先尝试Formspree（如果配置了endpoint）
+  // 后备使用mailto打开邮件客户端
+  var mailtoLink = 'mailto:729616934@qq.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+
+  // 显示成功提示
+  document.getElementById('successMsg').style.display = 'block';
+  document.getElementById('contactForm').style.display = 'none';
+
+  // 打开邮件客户端
+  window.location.href = mailtoLink;
+});
+</script>
 </body>
 </html>
