@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  width:800px; height:600px; overflow:hidden;
+  font-family: 'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif;
+  background: linear-gradient(150deg, #1a0020 0%, #0d1b2a 35%, #1b0a2e 65%, #0a1628 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+.card {
+  width:720px; height:520px;
+  background: linear-gradient(155deg, rgba(20,10,35,0.93), rgba(10,15,30,0.95));
+  border-radius:24px;
+  border: 1px solid rgba(200,50,200,0.12);
+  box-shadow: 0 30px 80px rgba(180,40,200,0.2), 0 0 200px rgba(160,50,220,0.07);
+  display:flex; flex-direction:column;
+  padding:50px 60px;
+  position:relative; overflow:hidden;
+}
+.card::before {
+  content:''; position:absolute; top:-50px; right:-50px;
+  width:240px; height:240px;
+  background: radial-gradient(circle, rgba(200,60,220,0.15) 0%, transparent 70%);
+  border-radius:50%;
+}
+.card::after {
+  content:''; position:absolute; bottom:-60px; left:20%;
+  width:200px; height:200px;
+  background: radial-gradient(circle, rgba(100,150,255,0.1) 0%, transparent 70%);
+  border-radius:50%;
+}
+.badge {
+  align-self: flex-start;
+  background: linear-gradient(135deg, #c026d3, #a855f7);
+  color:#fff; font-size:13px; font-weight:700;
+  padding:6px 18px; border-radius:20px;
+  letter-spacing:1px; z-index:1; margin-bottom:30px;
+}
+h1 {
+  font-size:46px; font-weight:800; color:#f5f0ff;
+  line-height:1.2; z-index:1;
+  margin-bottom:10px;
+}
+h1 span { color:#c084fc; }
+.subtitle {
+  font-size:19px; color:#d8b4fe; font-weight:400;
+  margin-bottom:26px; z-index:1;
+}
+.features {
+  display:flex; gap:12px; z-index:1; margin-bottom:28px; flex-wrap:wrap;
+}
+.feat {
+  background: rgba(180,80,220,0.1);
+  padding:7px 14px; border-radius:8px;
+  font-size:13px; color:#d8b4fe;
+  border:1px solid rgba(180,80,220,0.1);
+}
+.platforms {
+  z-index:1; margin-bottom:32px;
+  display:flex; gap:16px;
+}
+.pf {
+  background:rgba(255,255,255,0.04);
+  padding:8px 18px; border-radius:20px;
+  font-size:14px; color:#c4b5dc;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.stats {
+  display:flex; gap:30px; z-index:1; margin-bottom:auto;
+}
+.stat { display:flex; flex-direction:column; }
+.stat-num { font-size:30px; font-weight:800; color:#fff; }
+.stat-label { font-size:12px; color:#9b8bb5; margin-top:2px; }
+.bottom {
+  display:flex; justify-content:space-between; align-items:center;
+  z-index:1; border-top:1px solid rgba(180,80,220,0.1);
+  padding-top:20px;
+}
+.author { font-size:14px; color:#9b8bb5; }
+.version { font-size:13px; color:#7b6b95; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="badge">📱 内容创作者必备</div>
+  <h1>社交媒体<br><span>内容日历</span></h1>
+  <div class="subtitle">90天内容策略系统 · Notion / Google Sheets</div>
+  <div class="features">
+    <span class="feat">📊 5-3-2黄金比例</span>
+    <span class="feat">📅 90天内容规划</span>
+    <span class="feat">📈 数据追踪系统</span>
+    <span class="feat">🎯 多平台适配</span>
+    <span class="feat">⏰ 最佳发布时间</span>
+  </div>
+  <div class="platforms">
+    <span class="pf">📕 小红书</span>
+    <span class="pf">🎵 抖音</span>
+    <span class="pf">💬 公众号</span>
+    <span class="pf">🟢 朋友圈</span>
+    <span class="pf">📺 B站</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">90天</span><span class="stat-label">完整规划</span></div>
+    <div class="stat"><span class="stat-num">5</span><span class="stat-label">平台策略</span></div>
+    <div class="stat"><span class="stat-num">即用</span><span class="stat-label">直接上手</span></div>
+  </div>
+  <div class="bottom">
+    <span class="author">📋 财神出品</span>
+    <span class="version">v2.0 · 完整版</span>
+  </div>
+</div>
+</body>
+</html>
