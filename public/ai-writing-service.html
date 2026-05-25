@@ -138,10 +138,30 @@
       <button type="submit">提交需求 →</button>
     </form>
     <div id="confirm-msg">
-      <p style="font-size:1.3em;">✅ 需求已记录！</p>
-      <p>我们会在24小时内通过你留下的联系方式联系你。</p>
-      <p>如12小时内未收到回复，请直接发邮件到 <strong>729616934@qq.com</strong></p>
-      <p style="margin-top:10px;font-size:0.85em;color:#666;">你的需求已保存在本地，可复制备用：</p>
+      <p style="font-size:1.3em;">✅ 需求已提交！订单号：<strong id="order-id"></strong></p>
+      <p>我们会在24小时内联系你。着急的话直接扫码付款，立刻开始写。</p>
+      
+      <div id="pay-section" style="margin:30px 0; padding:25px; background:#fff7f0; border-radius:12px; border:2px dashed #ff6b35;">
+        <p style="font-size:1.2em;font-weight:bold;color:#ff6b35;margin-bottom:10px;">💰 扫码付款，24小时内交付</p>
+        <p style="color:#666;font-size:0.9em;">付款时<strong>备注订单号</strong>，我们会收到通知立刻开始写。</p>
+        <p style="color:#666;font-size:0.9em;">付款后<strong>务必发邮件</strong>到 729616934@qq.com，标题写订单号。</p>
+        <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:20px 0;">
+          <div style="text-align:center;">
+            <div style="width:160px;height:160px;background:#07c160;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:3em;margin-bottom:8px;">💬</div>
+            <p style="font-size:0.85em;color:#666;">加微信付款</p>
+            <p style="font-weight:bold;">17744247406</p>
+          </div>
+          <div style="text-align:center;">
+            <div style="width:160px;height:160px;background:#1677ff;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:3em;margin-bottom:8px;">📧</div>
+            <p style="font-size:0.85em;color:#666;">发邮件确认</p>
+            <p style="font-weight:bold;">729616934@qq.com</p>
+          </div>
+        </div>
+        <p style="font-size:0.8em;color:#999;margin-top:15px;">✉️ 付款后发邮件：标题写订单号 → 我们确认付款 → 开始写作 → 24h内交付初稿 → 满意付尾款 → 7天免费修改</p>
+        <a id="mailto-link" href="#" style="display:inline-block;margin-top:10px;padding:12px 30px;background:#ff6b35;color:#fff;border-radius:25px;text-decoration:none;font-weight:bold;font-size:1.1em;">📧 一键发邮件确认付款 →</a>
+      </div>
+      
+      <p style="margin-top:15px;font-size:0.85em;color:#666;">你的需求已保存：</p>
       <pre id="confirm-data" style="background:#f5f5f5;padding:10px;border-radius:5px;font-size:0.8em;white-space:pre-wrap;"></pre>
     </div>
   </div>
@@ -156,7 +176,9 @@
 <script>
 function handleSubmit(e) {
   e.preventDefault();
+  const orderId = 'AI' + Date.now().toString(36).toUpperCase();
   const data = {
+    orderId: orderId,
     name: document.getElementById('name').value,
     contact: document.getElementById('contact').value,
     type: document.getElementById('type').value,
@@ -169,15 +191,18 @@ function handleSubmit(e) {
   orders.push(data);
   localStorage.setItem('ai_orders', JSON.stringify(orders));
   
+  // 设置订单号
+  document.getElementById('order-id').textContent = orderId;
+  
+  // 设置mailto链接
+  const subject = '【付款确认】订单' + orderId + ' - ' + data.type;
+  const body = '订单号：' + orderId + '%0A称呼：' + data.name + '%0A联系：' + data.contact + '%0A类型：' + data.type + '%0A需求：' + data.detail + '%0A%0A我已付款，请开始写作。';
+  document.getElementById('mailto-link').href = 'mailto:729616934@qq.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  
   // 显示确认信息
   document.getElementById('order-form').style.display = 'none';
   document.getElementById('confirm-msg').style.display = 'block';
   document.getElementById('confirm-data').textContent = JSON.stringify(data, null, 2);
-  
-  // mailto作为备份通知
-  const subject = '【新订单】' + data.type + ' - ' + data.name;
-  const body = '称呼：' + data.name + '\n联系：' + data.contact + '\n类型：' + data.type + '\n需求：' + data.detail;
-  console.log('订单已保存，可通过mailto发送：mailto:729616934@qq.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body));
 }
 </script>
 </body>
