@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>n8n AI自动化工作流搭建教程——2026年最全保姆级指南 | AI赚钱博客</title>
+  <meta name="description" content="财神AI博客 - 2026年最新AI赚钱实战指南，覆盖AI副业、AI工具、一人公司、AI自媒体、AI电商等实操教程。永久免费，不卖课不割韭菜。">
+  <meta property="og:title" content="n8n AI自动化工作流搭建教程——2026年最全保姆级指南 | 财神AI博客">
+  <meta property="og:description" content="AI赚钱实战指南 · 134篇干货教程 · 永久免费">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://caishen-ai.github.io/caishen-blog/">
+  <meta property="og:image" content="https://caishen-ai.github.io/caishen-blog/images/og-default.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="msvalidate.01" content="855179A3F468178508E2FA6E9259EAD6" />
+  <link rel="canonical" href="https://caishen-ai.github.io/caishen-blog/">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="post">
+  <header class="site-header">
+    <h1>财神AI博客</h1>
+    <p>AI赚钱实操指南 · 零基础一人公司 · 149篇干货免费看 · 🎁 免费领AI工具包</p>
+  </header>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="index.html">文章归档</a>
+    <a href="https://cloud.siliconflow.cn/i/5I6eKRSe" target="_blank" rel="nofollow">推荐AI工具</a>
+      <a href="https://www.coze.cn/space/7538639107308683279/bot/7643023913135685675" target="_blank" style="background:#ff6b35;color:#fff;padding:4px 12px;border-radius:20px;">💬 AI客服</a></nav>
+  <main class="container">
+    <article class="post-content">
+      <div class="post-meta">2026-05-25</div>
+      <hr>
+<p>title: n8n AI自动化工作流搭建教程——2026年最全保姆级指南</p>
+<p>date: 2026-05-22</p>
+<p>description: 从零开始学n8n AI自动化工作流搭建，完整教程教你用n8n+大模型实现自动发邮件、自动回复、数据采集等，无需编程基础也能上手。</p>
+<p>keywords: n8n教程,n8n AI自动化,n8n工作流搭建,n8n大模型,AI自动化工具</p>
+<p>ogImage: /images/og-64.jpg</p>
+<hr>
+
+<h1>n8n AI自动化工作流搭建教程——2026年最全保姆级指南</h1>
+
+<h2>为什么你需要学n8n？</h2>
+
+<p>2026年，AI自动化已经从"大厂专属"变成了"个人标配"。越来越多的自由职业者和创业者发现：<strong>与其一个个手动操作，不如让AI帮你串联起整个工作流</strong>。</p>
+
+<p>n8n就是这样一个神器——它能把各种软件、API、AI模型串在一起，帮你自动完成重复性工作。</p>
+
+<p>我花了3个月时间深入研究n8n，从完全零基础到能搭建复杂的工作流程。今天把这份经验完全分享给你。</p>
+
+<h2>n8n是什么？和Zapier、Make有什么区别？</h2>
+
+<p>简单说，n8n是一个<strong>开源的工作流自动化工具</strong>。它让你通过拖拽节点的方式，连接不同应用和API。</p>
+
+<strong>和竞品的区别：</strong>
+
+<ul><li><strong>n8n vs Zapier</strong>：n8n开源、自部署、成本可控；Zapier收费贵、数据在别人服务器上</li>
+<li><strong>n8n vs Make</strong>：n8n的AI集成更灵活，尤其是和AI API（如DeepSeek、Claude、GPT）的对接非常丝滑</li>
+<li><strong>n8n的最大优势</strong>：你可以把它部署在自己的服务器上，数据安全有保障</li>
+</ul>
+<h2>在哪里获取AI大模型API？</h2>
+
+<p>搭建n8n AI工作流，你首先需要一个强大的AI模型API。这里我推荐我一直在用的<strong>硅基流动（SiliconFlow）</strong>：</p>
+
+<p>🔗 注册链接：https://cloud.siliconflow.cn/i/FVSZcLDS</p>
+
+<p>硅基流动提供：</p>
+<ul><li><strong>DeepSeek-R1</strong> 满血版API，按量付费超便宜</li>
+<li><strong>DeepSeek-V3</strong> 高性能推理，速度飞快</li>
+<li>新用户注册送额度，零成本体验</li>
+<li>兼容OpenAI格式，n8n一键接入</li>
+</ul>
+<h2>n8n环境搭建（Docker方式，5分钟搞定）</h2>
+
+<pre><code><h1>一行命令拉起n8n</h1>
+<p>docker run -d --name n8n \</p>
+<p>  -p 5678:5678 \</p>
+<p>  -v n8n_data:/home/node/.n8n \</p>
+<p>  -e N8N_SECURE_COOKIE=false \</p>
+<p>  n8nio/n8n</p>
+</code></pre>
+
+<p>然后打开 <code>http://localhost:5678</code>，你就会看到n8n的工作台。</p>
+
+<h2>AI自动化工作流实战：3个能赚钱的场景</h2>
+
+<h3>场景1：自动邮件营销系统</h3>
+
+<p>串联节点：<strong>Webhook → OpenAI/DeepSeek → Gmail</strong></p>
+
+<p>当有人填写你的落地页表单，系统自动：</p>
+<ul><li>用AI生成个性化邮件内容</li>
+<li>通过Gmail自动发送</li>
+<li>在Google Sheets中记录</li>
+</ul>
+<p>这套流程我帮客户搭建过，一次收费¥500-2000。</p>
+
+<h3>场景2：AI客服机器人</h3>
+
+<p>串联节点：<strong>Telegram/Discord Webhook → DeepSeek → 自动回复</strong></p>
+
+<p>7×24小时无人值守客服，回答用户常见问题，转化率提升30%+。</p>
+
+<h3>场景3：社交媒体自动发布</h3>
+
+<p>串联节点：<strong>RSS/数据库 → DeepSeek改写 → 多平台发布</strong></p>
+
+<p>自动从博客抓取新文章，用AI改写成适配小红书的文案，定时发布。</p>
+
+<h2>怎样用n8n接单赚钱？</h2>
+
+<strong>国内平台：</strong>
+<ul><li>猪八戒网：搜索"自动化工作流"，报价¥500-3000/套</li>
+<li>闲鱼：发布"n8n自动化搭建"服务</li>
+</ul>
+<strong>国际平台：</strong>
+<ul><li>Fiverr：搜索"n8n automation"，单子多，单价$50-300</li>
+<li>Upwork：企业客户，单价更高</li>
+</ul>
+<p>我认识的圈内朋友，一个月靠n8n接单能赚¥5000-15000。关键是<strong>复购率极高</strong>——客户用上自动化就离不开了。</p>
+
+<h2>常见问题</h2>
+
+<strong>Q: n8n需要编程基础吗？</strong>
+<p>A: 基本操作不需要。拖拽节点就能搭建。但如果要接入自定义API，懂一点JavaScript/JSON会更好。</p>
+
+<strong>Q: n8n免费吗？</strong>
+<p>A: 社区版完全免费开源。商业版按工作流数量收费，但对个人和小团队来说，社区版完全够用。</p>
+
+<strong>Q: 最常用的AI模型是什么？</strong>
+<p>A: DeepSeek性价比最高。通过<a href="https://cloud.siliconflow.cn/i/FVSZcLDS" target="_blank" rel="noopener">硅基流动</a>接入，便宜又稳定。</p>
+
+<h2>写在最后</h2>
+
+<p>2026年是AI自动化元年。掌握了n8n+AI大模型，你就有了一台24小时不间断运转的赚钱机器。不管是自己用还是帮别人搭建，都是稳赚不赔的买卖。</p>
+
+<hr>
+
+<strong>🚀 立刻行动！</strong>
+
+<ul><li>注册<a href="https://cloud.siliconflow.cn/i/FVSZcLDS" target="_blank" rel="noopener">硅基流动</a>获取AI API → 新用户免费额度</li>
+<li>用Docker部署n8n → 5分钟搞定</li>
+<li>跟着本文搭建你的第一个自动化流程</li>
+</ul>
+<strong>需要n8n自动化方案定制？</strong> 访问 <a href="https://axureshow.com" target="_blank" rel="noopener">axureshow.com</a> 查看我的服务页面，提供一对一搭建服务。
+
+    </article>
+
+    <nav class="post-nav">
+      {{PREV_POST}}
+      {{NEXT_POST}}
+        <a href="https://www.coze.cn/space/7538639107308683279/bot/7643023913135685675" target="_blank" style="background:#ff6b35;color:#fff;padding:4px 12px;border-radius:20px;">💬 AI客服</a></nav>
+
+    <div class="cta-banner">
+      <h3>🚀 不想自己写？AI帮你写</h3>
+      <p>简历优化 · 商业计划书 · 短视频脚本 · 公众号文章 · 小红书文案 · 知乎回答</p>
+      <p style="font-size:0.9em;color:#666;">🤖AI代写 · ⚡极速交付 · 💰¥50起 · 📩24小时内交稿</p>
+      <a href="https://caishen-ai.github.io/caishen-blog/digital-products/landing-page/" class="cta-button" style="display:inline-block;padding:12px 32px;background:#ff6b35;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;font-size:1.1em;margin:10px 0;">👉 立即获取AI代写服务</a>
+      <p style="font-size:0.85em;margin-top:8px;">🎁 免费下载：<a href="https://caishen-ai.github.io/caishen-blog/digital-products/landing-page/">AI赚钱工具包 + 商业计划模板 + 社媒日历</a></p>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-nav">
+      <a href="index.html">首页</a>
+      <a href="https://caishen-ai.github.io/caishen-blog/">在线版</a>
+      <a href="https://caishen-ai.github.io/caishen-blog/digital-products/landing-page/" style="color:#ff6b35;">🤖 AI代写服务</a>
+    </div>
+    <p>© 2026 财神AI博客 · 用AI开启你的副业之旅 · <a href="https://cloud.siliconflow.cn/i/5I6eKRSe" target="_blank" rel="nofollow">硅基流动推荐</a></p>
+    <div style="margin-top:10px;"><a href="https://www.freeai.run" target="_blank" rel="dofollow"><img src="https://www.freeai.run/badge/badge_dark.svg" alt="Featured on FreeAI" width="200" height="54" /></a></div>
+  </footer>
+</body>
+</html>
