@@ -1,0 +1,5 @@
+﻿test-md/
+test-output/
+test-output-clean/
+__pycache__/
+*.pyc

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>md2blog Demo</title>
+    <link>https://caishen-ai.github.io/caishen-blog/md2blog-demo/</link>
+    <description>Static blog generated in 1 second by md2blog</description>
+        <item>
+      <title>Hello World</title>
+      <link>https://caishen-ai.github.io/caishen-blog/md2blog-demo/hello-world/</link>
+      <description><![CDATA[﻿--- title: How I Built a Static Blog in 10 Seconds with Python date: 2026-05-26 tags: python, static-site, tutorial description: Learn how to turn a...]]></description>
+      <pubDate>2026-05-26</pubDate>
+    </item>
+  </channel>
+</rss>
