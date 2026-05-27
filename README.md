@@ -1,17 +1,23 @@
-﻿# caishen-blog
+﻿# caishen-blog — AI赚钱实战博客
 
-AI Blog about making money with AI. 300+ articles covering AI writing, AI tools, side hustles, and content monetization.
+300+ AI赚钱相关文章。覆盖AI写作、AI工具测评、副业实操、内容变现。
 
-## Featured Products
+## 🚀 推荐产品
 
-**[AI Prompt Packs](https://caishen-ai.github.io/prompts.html)** — Battle-tested AI prompts for content creators. 30 prompts across 5 platforms + 50 Xiaohongshu viral prompts. Starting at .
+**[🎯 AI写作变现Prompt工具箱 — ¥19.9](https://caishen-ai.github.io/caishen-blog/prompts.html)**
+80套实战Prompt模板：30套AI写作 + 50套小红书爆款。买一次永久用，不满意全额退款。
 
-**[Free Prompt Samples](https://caishen-ai.github.io/free-samples.html)** — Try 4 prompts before buying.
+**[🎁 免费Prompt样本](https://caishen-ai.github.io/caishen-blog/free-samples.html)**
+先看5套真实样本，试用满意再买完整版。
 
-## Links
+**[📝 AI代写服务](https://caishen-ai.github.io/caishen-blog/ai-writing-service.html)**
+专业文案代写 · 24小时交付 · 满意付款。¥50起。
 
-- Blog: https://caishen-ai.github.io/caishen-blog/
-- Products: https://caishen-ai.github.io/prompts.html
-- Order: https://caishen-ai.github.io/order.html
-- dev.to: https://dev.to/caishenai
+## 🔗 链接
+
+- 📖 博客: https://caishen-ai.github.io/caishen-blog/
+- 🛒 产品: https://caishen-ai.github.io/caishen-blog/prompts.html
+- ✍️ 代写: https://caishen-ai.github.io/caishen-blog/ai-writing-service.html
+- 📢 dev.to: https://dev.to/caishenai
+- 📧 联系: 729616934@qq.com
 
