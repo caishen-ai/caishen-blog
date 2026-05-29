@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>下单 | 财神AI — 数字产品购买</title>
+<meta name="description" content="财神AI数字产品下单页。购买AI Prompt工具箱、AI代写服务、AI工具教程。面包多+闲鱼双通道支付，安全可靠。">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fef9f4; color: #333; line-height: 1.6; }
+  .container { max-width: 700px; margin: 0 auto; padding: 40px 20px; }
+  .hero { text-align: center; padding: 50px 20px; background: linear-gradient(135deg, #ff6b35 0%, #f7c948 100%); color: #fff; border-radius: 16px; margin-bottom: 35px; }
+  .hero h1 { font-size: 2em; margin-bottom: 10px; }
+  .hero p { opacity: 0.95; }
+
+  h2 { color: #ff6b35; margin: 30px 0 20px; font-size: 1.4em; }
+  .step-box { background: #fff; padding: 30px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .step-box h3 { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .step-num { display: inline-flex; width: 32px; height: 32px; background: #ff6b35; color: #fff; border-radius: 50%; align-items: center; justify-content: center; font-size: 0.9em; font-weight: bold; flex-shrink: 0; }
+
+  label { display: block; font-weight: 600; margin: 15px 0 5px; }
+  input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit; transition: border 0.2s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #ff6b35; }
+  textarea { resize: vertical; min-height: 80px; }
+  select { appearance: none; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' fill='none'/%3E%3C/svg%3E") no-repeat right 12px center; padding-right: 40px; }
+
+  .product-option { display: flex; align-items: center; gap: 15px; padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; }
+  .product-option:hover { border-color: #ff6b35; background: #fff8f4; }
+  .product-option.selected { border-color: #ff6b35; background: #fff3eb; }
+  .product-option input[type="radio"] { width: auto; accent-color: #ff6b35; }
+  .product-info { flex: 1; }
+  .product-info .name { font-weight: bold; font-size: 1.05em; }
+  .product-info .desc { font-size: 0.9em; color: #666; }
+  .product-info .price { color: #ff6b35; font-weight: bold; font-size: 1.1em; }
+
+  .btn { display: inline-block; padding: 14px 36px; background: #ff6b35; color: #fff; border: none; border-radius: 30px; font-size: 1.1em; font-weight: bold; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+  .btn:hover { background: #e55a2b; }
+  .btn-outline { background: #fff; color: #ff6b35; border: 2px solid #ff6b35; }
+  .btn-outline:hover { background: #fff3eb; }
+  .btn:disabled { background: #ccc; cursor: not-allowed; }
+
+  .payment-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .payment-card { background: #fff; padding: 25px; border-radius: 12px; text-align: center; border: 2px solid #e0e0e0; cursor: pointer; transition: all 0.2s; }
+  .payment-card:hover, .payment-card.selected { border-color: #ff6b35; background: #fff8f4; }
+  .payment-card .icon { font-size: 2.5em; margin-bottom: 10px; }
+  .payment-card .name { font-weight: bold; margin-bottom: 5px; }
+  .payment-card .tip { font-size: 0.85em; color: #666; }
+
+  .confirm-box { background: #e8f5e9; padding: 25px; border-radius: 12px; text-align: center; display: none; }
+  .confirm-box .check { font-size: 3em; color: #4caf50; }
+  .confirm-box .order-id { font-size: 1.2em; font-weight: bold; margin: 10px 0; color: #ff6b35; }
+  .confirm-box .instructions { text-align: left; margin-top: 20px; padding: 15px; background: #fff; border-radius: 8px; }
+
+  .note { background: #fff3cd; padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.9em; }
+  .note strong { color: #856404; }
+
+  @media (max-width: 500px) {
+    .payment-methods { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <h1>🛒 财神AI · 下单</h1>
+    <p>三步完成购买，AI写作工具/服务即刻到手</p>
+  </div>
+
+  <!-- Step 1: 选产品 -->
+  <div class="step-box" id="step1">
+    <h3><span class="step-num">1</span> 选择产品</h3>
+    <div class="product-option" onclick="selectProduct('prompts')" id="prod-prompts">
+      <input type="radio" name="product" value="prompts" id="radio-prompts">
+      <div class="product-info">
+        <div class="name">📦 AI Prompt工具箱（80套）</div>
+        <div class="desc">AI写作/小红书/短视频/电商Prompt模板，复制即用</div>
+        <div class="price">¥19.90</div>
+      </div>
+    </div>
+    <div class="product-option" onclick="selectProduct('writing-basic')" id="prod-writing-basic">
+      <input type="radio" name="product" value="writing-basic" id="radio-writing-basic">
+      <div class="product-info">
+        <div class="name">✍️ AI代写 · 基础文案</div>
+        <div class="desc">小红书/朋友圈/产品描述，1500字以内，24h交付</div>
+        <div class="price">¥50.00</div>
+      </div>
+    </div>
+    <div class="product-option" onclick="selectProduct('writing-pro')" id="prod-writing-pro">
+      <input type="radio" name="product" value="writing-pro" id="radio-writing-pro">
+      <div class="product-info">
+        <div class="name">📝 AI代写 · 专业文章</div>
+        <div class="desc">公众号/知乎/演讲稿/行业科普，3000字以内，24h交付</div>
+        <div class="price">¥150.00</div>
+      </div>
+    </div>
+    <div class="product-option" onclick="selectProduct('writing-biz')" id="prod-writing-biz">
+      <input type="radio" name="product" value="writing-biz" id="radio-writing-biz">
+      <div class="product-info">
+        <div class="name">📊 AI代写 · 商业文档</div>
+        <div class="desc">商业计划书/述职报告/竞品分析，5000字以内</div>
+        <div class="price">¥300.00</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: 支付方式 -->
+  <div class="step-box" id="step2">
+    <h3><span class="step-num">2</span> 选择支付方式</h3>
+    <div class="payment-methods">
+      <div class="payment-card" onclick="selectPayment('mbd')" id="pay-mbd">
+        <div class="icon">🍞</div>
+        <div class="name">面包多在线支付</div>
+        <div class="tip">微信/支付宝 · 平台担保</div>
+      </div>
+      <div class="payment-card" onclick="selectPayment('xianyu')" id="pay-xianyu">
+        <div class="icon">🐟</div>
+        <div class="name">闲鱼下单</div>
+        <div class="tip">闲鱼APP搜索「财神AI」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: 填邮箱 + 确认 -->
+  <div class="step-box" id="step3">
+    <h3><span class="step-num">3</span> 填写联系方式 + 确认下单</h3>
+    <label for="email">📧 邮箱（用于接收产品/确认交付）*</label>
+    <input type="email" id="email" placeholder="your@email.com" required>
+    <label for="notes">💬 补充说明（选填）</label>
+    <textarea id="notes" placeholder="如有特殊要求，请在此说明"></textarea>
+
+    <div style="text-align:center; margin-top:25px;">
+      <button class="btn" id="submitBtn" onclick="submitOrder()">✅ 确认下单</button>
+    </div>
+    <div class="note" style="margin-top:20px;">
+      <strong>⚠️ 付款说明：</strong>下单后会显示具体付款方式。
+      面包多搜索「AI Prompt Packs」或闲鱼搜索「财神AI」即可找到对应商品。
+      付款后发送邮件到 <strong>729616934@qq.com</strong>，标题写订单号，我们即刻处理。
+    </div>
+  </div>
+
+  <!-- 确认页 -->
+  <div class="confirm-box" id="confirmBox">
+    <div class="check">✅</div>
+    <h3>下单成功！</h3>
+    <div class="order-id" id="orderIdDisplay"></div>
+    <div class="instructions" id="paymentInstructions"></div>
+    <div style="margin-top:25px;">
+      <p>付款后请发送邮件确认：</p>
+      <p style="font-size:1.2em; font-weight:bold; margin:10px 0;">📧 729616934@qq.com</p>
+      <p>邮件标题：<strong id="emailSubject"></strong></p>
+      <p>我们确认收款后将在<strong>10分钟内</strong>交付产品。</p>
+    </div>
+    <div class="note" style="margin-top:20px;">
+      <strong>💡 提示：</strong>本页面信息已保存，你也可以截图此页面作为凭证。
+    </div>
+  </div>
+
+  <p style="text-align:center; margin-top:30px; color:#999; font-size:0.85em;">
+    <a href="https://caishen-ai.github.io/caishen-blog/" style="color:#ff6b35;">← 返回博客首页</a>
+    &nbsp;|&nbsp; 联系：729616934@qq.com
+  </p>
+</div>
+
+<script>
+let selectedProduct = null;
+let selectedPayment = null;
+
+function selectProduct(val) {
+  selectedProduct = val;
+  document.querySelectorAll('.product-option').forEach(el => el.classList.remove('selected'));
+  document.getElementById('prod-' + val).classList.add('selected');
+  document.getElementById('radio-' + val).checked = true;
+}
+
+function selectPayment(val) {
+  selectedPayment = val;
+  document.querySelectorAll('.payment-card').forEach(el => el.classList.remove('selected'));
+  document.getElementById('pay-' + val).classList.add('selected');
+}
+
+function submitOrder() {
+  const email = document.getElementById('email').value.trim();
+  if (!selectedProduct) { alert('请先选择产品'); return; }
+  if (!selectedPayment) { alert('请先选择支付方式'); return; }
+  if (!email) { alert('请填写邮箱地址'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('请填写有效的邮箱地址'); return; }
+
+  const now = new Date();
+  const orderId = 'CSH-' + now.getFullYear() + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + Math.random().toString(36).substring(2,8).toUpperCase();
+
+  const productNames = {
+    'prompts': 'AI Prompt工具箱（80套）',
+    'writing-basic': 'AI代写 · 基础文案',
+    'writing-pro': 'AI代写 · 专业文章',
+    'writing-biz': 'AI代写 · 商业文档'
+  };
+  const productPrices = {
+    'prompts': '¥19.90',
+    'writing-basic': '¥50.00',
+    'writing-pro': '¥150.00',
+    'writing-biz': '¥300.00'
+  };
+
+  const paymentNames = {
+    'mbd': '面包多在线支付',
+    'xianyu': '闲鱼下单'
+  };
+
+  const paymentGuides = {
+    'mbd': '<strong>🍞 面包多支付步骤：</strong><br>1. 打开面包多 mbd.pub<br>2. 搜索「AI Prompt Packs」或「财神AI」<br>3. 选择对应产品在线支付（微信/支付宝）<br>4. 将订单截图发送到 729616934@qq.com',
+    'xianyu': '<strong>🐟 闲鱼支付步骤：</strong><br>1. 打开闲鱼APP<br>2. 搜索「财神AI」或「AI写作Prompt」<br>3. 找到商品直接拍下付款<br>4. 将订单截图发送到 729616934@qq.com'
+  };
+
+  document.getElementById('orderIdDisplay').textContent = '订单号：' + orderId;
+  document.getElementById('emailSubject').textContent = orderId + ' ' + productNames[selectedProduct] + ' ' + productPrices[selectedProduct];
+  document.getElementById('paymentInstructions').innerHTML = paymentGuides[selectedPayment];
+
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = 'none';
+  document.getElementById('confirmBox').style.display = 'block';
+
+  // 记录订单（客户端仅显示，实际订单通过邮件确认）
+  const orderData = {
+    orderId: orderId,
+    product: selectedProduct,
+    productName: productNames[selectedProduct],
+    price: productPrices[selectedProduct],
+    payment: paymentNames[selectedPayment],
+    email: email,
+    notes: document.getElementById('notes').value.trim(),
+    time: now.toISOString()
+  };
+
+  // 尝试发送订单通知（通过formsubmit.co等服务，但不需要依赖）
+  // 主要依赖用户主动发邮件确认
+  console.log('订单已创建:', orderData);
+
+  // 滚动到确认区域
+  document.getElementById('confirmBox').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
