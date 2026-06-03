@@ -1,0 +1,1440 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI���ֲ�Ʒ �� һ�˹�˾Ч�ʹ�����װ</title>
+  <meta name="description" content="4��Ĵ����AI���ֲ�Ʒ��������㿪ʼ����һ����ҵ��Prompt���䡢��ҵ�ƻ�ģ�塢����������AI׬Ǯָ�ϡ���һ�׸㶨��">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==============================
+       CSS Variables �� Warm Light Palette
+       ============================== */
+    :root {
+      --bg-primary: #fdfaf5;
+      --bg-secondary: #f7f2e8;
+      --bg-tertiary: #efe8d8;
+      --bg-card: #fffdf9;
+      --bg-highlight: #fef3e4;
+
+      --text-primary: #1f1a14;
+      --text-secondary: #5c5348;
+      --text-tertiary: #8a7e6e;
+      --text-inverse: #fdfaf5;
+
+      --accent: #c75b39;
+      --accent-hover: #a8492b;
+      --accent-light: #fce4d8;
+      --accent-muted: oklch(0.75 0.08 45);
+
+      --gold: #b8943d;
+      --gold-light: #f5e7c1;
+      --olive: #6b7c4e;
+      --rust: #a65d3a;
+
+      --border: #e8e0d4;
+      --border-light: #f0ebe0;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.04);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+      --shadow-xl: 0 24px 64px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.04);
+
+      --font-display: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
+      --font-body: 'Source Sans 3', 'Noto Sans SC', -apple-system, sans-serif;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+      --content-max: 1200px;
+      --content-narrow: 780px;
+    }
+
+    /* ==============================
+       Reset & Base
+       ============================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 200ms var(--ease-out);
+    }
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* ==============================
+       Typography Scale (1.25 ratio)
+       ============================== */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    h1 { font-size: clamp(2.5rem, 5vw, 4.2rem); }
+    h2 { font-size: clamp(2rem, 3.5vw, 2.8rem); }
+    h3 { font-size: clamp(1.4rem, 2vw, 1.75rem); }
+    h4 { font-size: 1.25rem; }
+
+    p { max-width: 65ch; }
+
+    .text-accent { color: var(--accent); }
+    .text-gold { color: var(--gold); }
+    .text-secondary { color: var(--text-secondary); }
+    .text-tertiary { color: var(--text-tertiary); }
+
+    /* ==============================
+       Utility
+       ============================== */
+    .container {
+      width: 100%;
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .container-narrow {
+      max-width: var(--content-narrow);
+    }
+
+    @media (min-width: 768px) {
+      .container { padding: 0 48px; }
+    }
+
+    /* ==============================
+       Buttons
+       ============================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 32px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 250ms var(--ease-out);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--text-inverse);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+      color: var(--text-inverse);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+    }
+    .btn-outline:hover {
+      background: var(--accent-light);
+      color: var(--accent-hover);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #fff;
+    }
+    .btn-gold:hover {
+      background: #a07e2e;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(184,148,61,0.3);
+      color: #fff;
+    }
+
+    .btn-lg {
+      padding: 18px 40px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+    }
+    .btn-xl {
+      padding: 22px 48px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+    }
+
+    /* ==============================
+       Hero Section
+       ============================== */
+    .hero {
+      position: relative;
+      padding: 80px 0 64px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -60px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--gold-light) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (min-width: 900px) {
+      .hero {
+        padding: 100px 0 80px;
+      }
+      .hero-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-highlight);
+      border: 1px solid var(--accent-light);
+      color: var(--accent);
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    .hero-title {
+      margin-bottom: 20px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.875rem;
+      color: var(--text-tertiary);
+    }
+    .hero-trust span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-card-stack {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 4 / 5;
+    }
+    .hero-card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      text-align: center;
+      transition: transform 400ms var(--ease-out);
+    }
+    .hero-card:nth-child(1) {
+      z-index: 4;
+      transform: rotate(-3deg);
+    }
+    .hero-card:nth-child(2) {
+      z-index: 3;
+      transform: rotate(1deg) translateY(8px);
+    }
+    .hero-card:nth-child(3) {
+      z-index: 2;
+      transform: rotate(-1deg) translateY(16px);
+    }
+    .hero-card:nth-child(4) {
+      z-index: 1;
+      transform: rotate(3deg) translateY(24px);
+    }
+
+    @media (hover: hover) {
+      .hero-card-stack:hover .hero-card:nth-child(1) {
+        transform: rotate(-8deg) translateX(-20px);
+      }
+      .hero-card-stack:hover .hero-card:nth-child(2) {
+        transform: rotate(3deg) translateY(8px) translateX(-8px);
+      }
+      .hero-card-stack:hover .hero-card:nth-child(3) {
+        transform: rotate(-2deg) translateY(16px) translateX(8px);
+      }
+      .hero-card-stack:hover .hero-card:nth-child(4) {
+        transform: rotate(8deg) translateY(24px) translateX(20px);
+      }
+    }
+
+    .hero-card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    .hero-card-label {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    /* ==============================
+       Section Common
+       ============================== */
+    section {
+      padding: 80px 0;
+    }
+    @media (min-width: 768px) {
+      section { padding: 100px 0; }
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-header .section-desc {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Divider */
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin: 0 auto 24px;
+    }
+
+    /* ==============================
+       Products Grid
+       ============================== */
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    @media (min-width: 640px) {
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .product-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px 28px;
+      transition: all 300ms var(--ease-out);
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent-light);
+    }
+
+    .product-card-best {
+      border-color: var(--gold);
+      border-width: 2px;
+      box-shadow: var(--shadow-md);
+    }
+    .product-badge {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--gold);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+
+    .product-icon {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+    }
+    .product-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .product-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .product-features {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+    .product-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 4px 0;
+      line-height: 1.5;
+    }
+    .product-features li::before {
+      content: '?';
+      flex-shrink: 0;
+      color: var(--olive);
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    .product-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+    }
+    .product-price {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .product-price-cny {
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+    }
+
+    /* ==============================
+       Bundle Section
+       ============================== */
+    .bundle-section {
+      background: var(--bg-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+    .bundle-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--gold), var(--olive), var(--gold), var(--accent));
+    }
+
+    .bundle-card {
+      background: var(--bg-card);
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      padding: 48px 36px;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .bundle-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 6px 18px;
+      border-radius: 100px;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+    .bundle-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 12px;
+    }
+    .bundle-desc {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .bundle-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 24px;
+      list-style: none;
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+    .bundle-items li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .bundle-pricing {
+      margin-bottom: 28px;
+    }
+    .bundle-price-original {
+      font-size: 1rem;
+      color: var(--text-tertiary);
+      text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+    .bundle-price-now {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .bundle-price-cny {
+      font-size: 1rem;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+    }
+    .bundle-savings {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--accent-light);
+      color: var(--accent-hover);
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-top: 12px;
+    }
+
+    /* ==============================
+       Why Section (�Աȱ����)
+       ============================== */
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    @media (min-width: 768px) {
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .why-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .why-item {
+      text-align: center;
+      padding: 32px 20px;
+    }
+    .why-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+    .why-name {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .why-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ==============================
+       Testimonial
+       ============================== */
+    .testimonial {
+      background: var(--bg-highlight);
+      border-left: 4px solid var(--accent);
+      padding: 32px 36px;
+      border-radius: 0 12px 12px 0;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .testimonial-text {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .testimonial-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .testimonial-role {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+    }
+
+    /* ==============================
+       FAQ
+       ============================== */
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border-light);
+      padding: 28px 0;
+    }
+    .faq-item:first-child {
+      border-top: 1px solid var(--border-light);
+    }
+    .faq-q {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      cursor: default;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .faq-q-icon {
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .faq-a {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-left: 28px;
+    }
+
+    /* ==============================
+       Final CTA
+       ============================== */
+    .cta-section {
+      text-align: center;
+      padding: 80px 0;
+      position: relative;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 80%, var(--accent-light) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+    .cta-title {
+      margin-bottom: 16px;
+    }
+    .cta-desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin: 0 auto 32px;
+    }
+    .cta-btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .cta-guarantee {
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* ==============================
+       Footer
+       ============================== */
+    .footer {
+      border-top: 1px solid var(--border-light);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+    }
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    @media (min-width: 640px) {
+      .footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+
+    /* ==============================
+       Entrance Animations
+       ============================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 100ms; }
+    .reveal-delay-2 { transition-delay: 200ms; }
+    .reveal-delay-3 { transition-delay: 300ms; }
+    .reveal-delay-4 { transition-delay: 400ms; }
+
+    /* ==============================
+       Reduced Motion
+       ============================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    /* Payment Modal */
+    .payment-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .payment-modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+    }
+    .payment-modal-content {
+      position: relative;
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 40px 32px;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: var(--shadow-xl);
+      text-align: center;
+    }
+    .payment-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-tertiary);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 200ms;
+    }
+    .payment-modal-close:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    @media (max-width: 640px) {
+      .payment-modal-content {
+        padding: 28px 20px;
+        max-width: 100%;
+      }
+    }
+
+    /* ==============================
+       Mobile Tweaks
+       ============================== */
+    @media (max-width: 640px) {
+      .hero-card-stack {
+        max-width: 240px;
+        margin: 0 auto;
+      }
+      .bundle-card {
+        padding: 32px 20px;
+      }
+      .bundle-price-now {
+        font-size: 2.2rem;
+      }
+      .product-card {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==============================
+     HERO
+     ============================== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-text">
+        <div class="hero-badge reveal">
+          <span class="hero-badge-dot"></span>
+          2026 ���ֲ�Ʒ��װ
+        </div>
+
+        <h1 class="hero-title reveal reveal-delay-1">
+          һ���ˣ�<br>
+          <em>��ɱ�</em>���<br>
+          ���������ҵ
+        </h1>
+
+        <p class="hero-subtitle reveal reveal-delay-2">
+          4��Ĵ�ĥ��AI���ֲ�Ʒ��������ʾ�ʹ��̡���ҵ�滮��������Ӫ��AI����ȫ��·��������ӡ��롹����׬����ÿһ�����й��߿�����
+        </p>
+
+        <div class="hero-cta-group reveal reveal-delay-3">
+          <a href="#bundle" class="btn btn-gold btn-lg">?? һ����� �� ʡ30%</a>
+          <a href="#products" class="btn btn-outline btn-lg">�鿴ȫ����Ʒ ��</a>
+        </div>
+
+        <div class="hero-trust reveal reveal-delay-3">
+          <span>?? ��ȫ֧��</span>
+          <span>?? ��ʱ����</span>
+          <span>?? ���ø���</span>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal reveal-delay-2">
+        <div class="hero-card-stack">
+          <div class="hero-card">
+            <div class="hero-card-icon">??</div>
+            <div class="hero-card-label">Prompt ����</div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-icon">??</div>
+            <div class="hero-card-label">��ҵ�ƻ���</div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-icon">??</div>
+            <div class="hero-card-label">��������</div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-icon">??</div>
+            <div class="hero-card-label">AI׬Ǯָ��</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     PRODUCTS
+     ============================== -->
+<section id="products">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">���ǵĲ�Ʒ</p>
+      <h2 class="section-title">4������������ÿ���ؼ�����</h2>
+      <p class="section-desc">��AI��ʾ�ʵ���ҵ���֣�һ�˹�˾�ĺ������������ǰ����װ�ɼ��õ����ֲ�Ʒ��</p>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- Product 1 -->
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-icon">??</div>
+        <h3 class="product-name">AI Prompt ���� 2026</h3>
+        <p class="product-desc">200+רҵ��ʾ��ģ�壬�������ݴ�������ҵ���ߡ���̡�Ӫ����10�󳡾���</p>
+        <ul class="product-features">
+          <li>��AIЧ������10��</li>
+          <li>ÿ����ʾ�ʶ�����ʵս��֤</li>
+          <li>ֱ�Ӹ����޸ļ���</li>
+        </ul>
+        <div class="product-price-row">
+          <span class="product-price">$9.99</span>
+          <span class="product-price-cny">Լ ��69</span>
+        </div>
+        <button class="btn btn-primary buy-btn" style="width:100%;" data-product="prompt-bible" data-price="69" data-name="AI Prompt ���� 2026" onclick="showPayment(this)">?? �������� ��69</button>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card product-card-best reveal reveal-delay-2">
+        <span class="product-badge">?? ����</span>
+        <div class="product-icon">??</div>
+        <h3 class="product-name">һ�˹�˾��ҵ�ƻ���ģ��</h3>
+        <p class="product-desc">Notionȫ������ҵ�ƻ�ģ�壬רΪһ�˹�˾��ơ�</p>
+        <ul class="product-features">
+          <li>��ҵģʽ����</li>
+          <li>����ģ�ͼ�����</li>
+          <li>90��·��ͼ</li>
+          <li>�ؼ�ָ���Ǳ���</li>
+        </ul>
+        <div class="product-price-row">
+          <span class="product-price">$14.99</span>
+          <span class="product-price-cny">Լ ��99</span>
+        </div>
+        <button class="btn btn-primary buy-btn" style="width:100%;" data-product="business-plan" data-price="99" data-name="һ�˹�˾��ҵ�ƻ���ģ��" onclick="showPayment(this)">?? �������� ��99</button>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card reveal reveal-delay-3">
+        <div class="product-icon">??</div>
+        <h3 class="product-name">�罻ý����������ģ��</h3>
+        <p class="product-desc">90���罻ý�����ݲ���ϵͳ������������������ݡ�</p>
+        <ul class="product-features">
+          <li>���ݻƽ�������</li>
+          <li>�ܶ��¶ȹ滮��</li>
+          <li>��ƽ̨��ѷ���ʱ��</li>
+          <li>����׷��</li>
+        </ul>
+        <div class="product-price-row">
+          <span class="product-price">$12.99</span>
+          <span class="product-price-cny">Լ ��89</span>
+        </div>
+        <button class="btn btn-primary buy-btn" style="width:100%;" data-product="content-calendar" data-price="89" data-name="�罻ý����������ģ��" onclick="showPayment(this)">?? �������� ��89</button>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card reveal reveal-delay-4">
+        <div class="product-icon">??</div>
+        <h3 class="product-name">AI׬Ǯ��ȫָ�� 2026</h3>
+        <p class="product-desc">�������ɱ���һ������������ʵ��ָ�ϡ�</p>
+        <ul class="product-features">
+          <li>10��ϵͳ�̳�</li>
+          <li>��ʵ�������</li>
+          <li>90���ж��ƻ�</li>
+          <li>�ܿ�ָ��</li>
+        </ul>
+        <div class="product-price-row">
+          <span class="product-price">$19.99</span>
+          <span class="product-price-cny">Լ ��139</span>
+        </div>
+        <button class="btn btn-primary buy-btn" style="width:100%;" data-product="ai-money-guide" data-price="139" data-name="AI׬Ǯ��ȫָ�� 2026" onclick="showPayment(this)">?? �������� ��139</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     BUNDLE
+     ============================== -->
+<section class="bundle-section" id="bundle">
+  <div class="container">
+    <div class="bundle-card reveal">
+      <div class="bundle-badge">? �ֵѡ��</div>
+      <h2 class="bundle-title">һ�˹�˾ �� ȫ����װ</h2>
+      <p class="bundle-desc">һ�ι��򣬻�ȡȫ��4���Ʒ������ʾ�ʵ����֣�ȫ�׹��ߴ�ͨ���������ҵ��</p>
+
+      <ul class="bundle-items">
+        <li>?? AI Prompt ���� 2026</li>
+        <li>?? ��ҵ�ƻ���ģ��</li>
+        <li>?? ��������ģ��</li>
+        <li>?? AI׬Ǯ��ȫָ��</li>
+      </ul>
+
+      <div class="bundle-pricing">
+        <div class="bundle-price-original">ԭ�� $57.96</div>
+        <div class="bundle-price-now">$39.99</div>
+        <div class="bundle-price-cny">Լ ��279</div>
+        <div class="bundle-savings">?? ��ʡ $17.97��30%��</div>
+      </div>
+
+      <button class="btn btn-gold btn-xl buy-btn" data-product="bundle" data-price="289" data-name="һ�˹�˾��ȫ����װ" onclick="showPayment(this)">?? �������� ��289</button>
+      <p style="font-size:0.85rem;color:var(--text-tertiary);margin-top:12px;">30���������˿����չ���</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     WHY US
+     ============================== -->
+<section>
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Ϊʲôѡ������</p>
+      <h2 class="section-title">����ģ��������ǿ�ִ��ϵͳ</h2>
+      <p class="section-desc">���������ֲ�Ʒǧǧ�����ǵĲ�ͬ���ڡ���ÿ����Ʒ��������ʵ��һ�˹�˾ʵս��</p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-item reveal reveal-delay-1">
+        <div class="why-icon">?</div>
+        <h4 class="why-name">������</h4>
+        <p class="why-desc">����ѧϰ���ߣ����غ�ֱ�Ӹ��ơ��޸ġ�Ͷ��ʹ�á�</p>
+      </div>
+      <div class="why-item reveal reveal-delay-2">
+        <div class="why-icon">???</div>
+        <h4 class="why-name">ʵս��֤</h4>
+        <p class="why-desc">ÿ��ģ�塢ÿ����ʾ�ʶ�������ʵ��Ŀ���飬����ֽ��̸����</p>
+      </div>
+      <div class="why-item reveal reveal-delay-3">
+        <div class="why-icon">??</div>
+        <h4 class="why-name">��������</h4>
+        <p class="why-desc">AI�仯�죬���ǵĲ�ƷҲ���������һ�ι����������ܸ��¡�</p>
+      </div>
+      <div class="why-item reveal reveal-delay-4">
+        <div class="why-icon">??</div>
+        <h4 class="why-name">��Ⱥ֧��</h4>
+        <p class="why-desc">����һ�˹�˾��������Ⱥ���������顢���ʴ��ɣ��㲻��һ���ˡ�</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     TESTIMONIAL
+     ============================== -->
+<section style="padding-top:0;">
+  <div class="container container-narrow">
+    <div class="testimonial reveal">
+      <p class="testimonial-text">"����AI׬Ǯָ�Ϻ�Prompt���䣬�����ھ�����ʾ��ģ���Ż����ҵ�С�����������̣�ʡ������һ��ʱ�䡣��ҵ�ƻ���ģ������������ӯ��ģ�ͣ�����ÿ���ȶ��� ��8000+ ��ҵ���롣�����Ƽ�����㸱ҵ���ˡ�"</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">L</div>
+        <div>
+          <div class="testimonial-name">С��</div>
+          <div class="testimonial-role">���ݴ�ҵ�� �� ʹ����װ3����</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     FAQ
+     ============================== -->
+<section id="faq">
+  <div class="container container-narrow">
+    <div class="section-header reveal">
+      <p class="section-label">��������</p>
+      <h2 class="section-title">�����������</h2>
+    </div>
+
+    <div class="faq-list reveal reveal-delay-1">
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          �������λ�ȡ��Ʒ��
+        </div>
+        <div class="faq-a">
+          ֧���ɹ����㽫�����յ�һ������������ӵ��ʼ������в�Ʒ��PDF��ʽ�ɼ�ʱ���ء�Ҳ����ֱ�ӵ����Ʒҳ������ذ�ť��ȡ��
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          ֧���˿���
+        </div>
+        <div class="faq-a">
+          ֧�֣������30���ڣ��������ò�Ʒû�дﵽԤ�ڣ������ʼ�����������ȫ���˿���ǲ���ԭ��
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          Notionģ����Ҫ�����˺���
+        </div>
+        <div class="faq-a">
+          ����Ҫ��Notion��Ѱ���ȫ���ã���ֻ��ע��һ�����Notion�˺ż���ʹ������ģ�幦�ܡ�
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          ��Ʒ������𣿸����շ���
+        </div>
+        <div class="faq-a">
+          ��ġ�AI����仯���죬���ǻ���������������Ʋ����²�Ʒ�������ѹ��û���ѻ�ȡ���£�������θ��ѡ�
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          ���Ǵ����֣��ʺ��ĸ���Ʒ��
+        </div>
+        <div class="faq-a">
+          �Ƽ��ӡ�AI׬Ǯ��ȫָ�� 2026����ʼ������Ϊ�������Ƶ�ϵͳ�̡̳�������������AIʹ��Ч�ʣ���Prompt ���䡹�����ѡ�񡣵�Ȼ����װ���Ҳ��ȫ�档
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-q-icon">Q</span>
+          ֧����ȫ��
+        </div>
+        <div class="faq-a">
+          ����ʹ����ҵ��׼֧�����ش�����ף�ȫ�̼��ܡ����ǲ���洢���֧����Ϣ��
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     FINAL CTA
+     ============================== -->
+<section class="cta-section" id="buy-bundle">
+  <div class="container">
+    <div class="cta-content reveal">
+      <h2 class="cta-title">׼���ÿ�ʼ����</h2>
+      <p class="cta-desc">4���Ʒ��һ����װ��30����������á�<br>����Ϳ�ʼ�������һ��������ҵ��</p>
+
+      <div class="cta-btn-group">
+        <button class="btn btn-gold btn-xl buy-btn" data-product="bundle" data-price="289" data-name="һ�˹�˾��ȫ����װ" onclick="showPayment(this)">?? ������װ �� ��289</button>
+        <a href="#products" class="btn btn-outline btn-lg">�鿴������Ʒ</a>
+      </div>
+
+      <p class="cta-guarantee">
+        ?? 30���������˿� �� ��ʱ���� �� ���ø���
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     FOOTER
+     ============================== -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>? 2026 AI���ֲ�Ʒ �� һ�˹�˾Ч�ʹ���</span>
+    <span>
+      <a href="#faq">��������</a> �� 
+      <a href="#">��˽����</a> �� 
+      <a href="#">��ϵ����</a>
+    </span>
+  </div>
+</footer>
+
+<!-- ==============================
+     SCROLL REVEAL
+     ============================== -->
+<script>
+(function() {
+  'use strict';
+
+  // Intersection Observer for scroll reveal
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -60px 0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Add visible class to hero elements immediately (before scroll)
+  setTimeout(function() {
+    document.querySelectorAll('.hero .reveal').forEach(function(el) {
+      el.classList.add('visible');
+    });
+  }, 100);
+
+  /* ===== Payment Modal Functions ===== */
+  function showPayment(btn) {
+    var name = btn.getAttribute('data-name');
+    var price = btn.getAttribute('data-price');
+    document.getElementById('payment-title').textContent = '���� �� ' + name;
+    document.getElementById('payment-price-display').textContent = '��' + price;
+    document.getElementById('payment-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePayment() {
+    document.getElementById('payment-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function copyBankInfo() {
+    var text = '6217931870081744 �ַ�����';
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function() {
+        alert('? ���п����Ѹ��ƣ�' + text);
+      });
+    } else {
+      prompt('���ֶ��������п��ţ�', text);
+    }
+  }
+})();
+</script>
+
+<!-- ֧������ -->
+<div id="payment-modal" class="payment-modal" style="display:none;">
+  <div class="payment-modal-overlay" onclick="closePayment()"></div>
+  <div class="payment-modal-content">
+    <button class="payment-modal-close" onclick="closePayment()">��</button>
+    <h3 id="payment-title" style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:8px;"></h3>
+    <p id="payment-price-display" style="font-size:2rem;font-weight:800;color:var(--accent);margin-bottom:20px;"></p>
+    
+    <div style="background:var(--bg-highlight);border-radius:12px;padding:24px;margin-bottom:20px;text-align:left;">
+      <h4 style="font-size:1rem;margin-bottom:12px;">?? ����ʽ</h4>
+      <p style="margin-bottom:8px;"><strong>1. ����ת��</strong></p>
+      <div style="background:#fff;border:1.5px dashed var(--accent);border-radius:8px;padding:16px;margin-bottom:12px;font-family:monospace;">
+        �ַ�����<br>
+        ���ţ�<strong style="font-size:1.1rem;letter-spacing:2px;">6217 9318 7008 1744</strong>
+      </div>
+      <p style="margin-bottom:8px;"><strong>2. ΢��ת��</strong></p>
+      <p style="color:var(--text-secondary);font-size:0.9rem;">���΢�ţ�<strong>729616934@qq.com 🐟闲鱼搜"AI智能客服搭建" 🤖扣子Bot</strong></p>
+      
+      <div style="margin-top:12px;padding:12px;background:#fff;border-radius:8px;border-left:3px solid var(--gold);">
+        <p style="font-size:0.85rem;color:var(--text-secondary);">
+          ?? <strong>��������ͼ���͵�΢�� 729616934@qq.com 🐟闲鱼搜"AI智能客服搭建" 🤖扣子Bot</strong>��ע������Ĳ�Ʒ���ơ��һ���<strong>10������</strong>����Ʒ�ļ����͸��㡣
+        </p>
+      </div>
+
+      <div style="margin-top:16px;padding:16px;background:#fff8f5;border-radius:8px;border:1px dashed var(--accent);text-align:center;">
+        <p style="font-size:0.9rem;color:var(--accent);margin-bottom:8px;">
+          ?? <strong>����ȷ��������ѯ�ٹ���</strong>
+        </p>
+        <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:8px;">
+          ��΢�� <strong style="color:var(--accent);">729616934@qq.com 🐟闲鱼搜"AI智能客服搭建" 🤖扣子Bot</strong>����������������Ұ���ѡ���ʺϵĲ�Ʒ
+        </p>
+        <a href="https://caishen-ai.github.io/caishen-blog/ai-customer-service.html#contact" target="_blank" style="display:inline-block;background:var(--accent);color:#fff;padding:8px 20px;border-radius:20px;text-decoration:none;font-size:0.9rem;font-weight:600;">?? ������ ��</a>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-primary" style="flex:1;" onclick="copyBankInfo()">?? �������п���</button>
+      <button class="btn btn-outline" style="flex:1;" onclick="closePayment()">�ر�</button>
+    </div>
+
+    <p style="font-size:0.8rem;color:var(--text-tertiary);margin-top:12px;">?? 30���������˿� �� ���ø���</p>
+  </div>
+</div>
+
+  <!-- Coze AI�ͷ� Bot - iframeǶ�뷽ʽ -->
+  <div id="coze-chat-widget" style="position:fixed;bottom:80px;right:20px;width:380px;height:560px;z-index:9999;display:none;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.15);overflow:hidden;background:white;">
+    <iframe src="https://www.coze.cn/embed/7643023913135685675" width="100%" height="100%" frameborder="0"></iframe>
+  </div>
+  <button id="coze-chat-toggle" onclick="toggleCozeChat()" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#ff6b35,#f7931e);border:none;cursor:pointer;z-index:9999;box-shadow:0 4px 16px rgba(255,107,53,0.4);font-size:28px;color:white;display:flex;align-items:center;justify-content:center;">
+    ??
+  </button>
+  <script>
+    function toggleCozeChat() {
+      var w = document.getElementById('coze-chat-widget');
+      w.style.display = w.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+
+
+  
+  <!-- Coze Chat SDK v1.2.0-beta.20 -->
+  <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.20/libs/cn/index.js"></script>
+  <script>
+    new CozeWebSDK.WebChatClient({
+      config: {
+        bot_id: '7643023913135685675',
+        isIframe: false,
+      },
+      auth: {
+        type: 'token',
+        token: 'cztei_hLEaj0FD3iHx2hFFVM49MFv7j4AM8bkCyzGyeI5fRrjhIV5aj8ZJR4F5hsYMcIFdZ',
+        onRefreshToken: async () => 'cztei_hLEaj0FD3iHx2hFFVM49MFv7j4AM8bkCyzGyeI5fRrjhIV5aj8ZJR4F5hsYMcIFdZ'
+      },
+      userInfo: {
+        id: 'visitor',
+        url: 'https://caishen-ai.github.io/caishen-blog/images/logo.png',
+        nickname: '�ÿ�',
+      },
+      ui: {
+        base: {
+          icon: 'https://caishen-ai.github.io/caishen-blog/images/logo.png',
+          layout: 'pc',
+          lang: 'zh-CN',
+          zIndex: 9999
+        },
+        header: { isShow: true, isNeedClose: true },
+        asstBtn: { isNeed: true },
+        footer: { isShow: true, expressionText: '����AI�ͷ� �� 12Сʱ�ڻظ�' },
+        chatBot: { title: '����AI�ͷ�', uploadable: false, width: 390 },
+      },
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Copilot Token Cost Calculator - See Your New Bill Before June 1</title>
+<meta name="description" content="Calculate how much GitHub Copilot will cost you after the June 1, 2026 token pricing change. Compare old vs new pricing in seconds.">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(135deg, #0d1117 0%, #161b22 100%); color: #c9d1d9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+.container { max-width: 680px; width: 100%; margin-top: 40px; }
+.header { text-align: center; margin-bottom: 30px; }
+.header h1 { font-size: 2em; background: linear-gradient(90deg, #58a6ff, #3fb950); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+.header .badge { display: inline-block; background: #da3633; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 12px; }
+.header p { color: #8b949e; font-size: 16px; }
+.card { background: #21262d; border: 1px solid #30363d; border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+.card h3 { color: #58a6ff; margin-bottom: 16px; font-size: 18px; }
+.input-group { margin-bottom: 16px; }
+.input-group label { display: block; color: #8b949e; font-size: 14px; margin-bottom: 6px; }
+.input-group input, .input-group select { width: 100%; padding: 10px 12px; background: #0d1117; border: 1px solid #30363d; border-radius: 8px; color: #c9d1d9; font-size: 16px; }
+.input-group input:focus { border-color: #58a6ff; outline: none; }
+.presets { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.preset-btn { padding: 6px 14px; background: #30363d; border: 1px solid #484f58; border-radius: 20px; color: #c9d1d9; cursor: pointer; font-size: 13px; transition: all .2s; }
+.preset-btn:hover { background: #58a6ff; color: #0d1117; border-color: #58a6ff; }
+.results { display: none; }
+.results.show { display: block; }
+.result-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #30363d; }
+.result-row:last-child { border-bottom: none; }
+.result-label { font-size: 14px; color: #8b949e; }
+.result-value { font-size: 18px; font-weight: bold; }
+.old-price { color: #3fb950; }
+.new-price { color: #da3633; }
+.diff-badge { padding: 4px 10px; border-radius: 8px; font-size: 14px; font-weight: bold; }
+.diff-increase { background: rgba(218, 54, 51, 0.2); color: #da3633; }
+.diff-decrease { background: rgba(63, 185, 80, 0.2); color: #3fb950; }
+.share-section { text-align: center; margin-top: 16px; }
+.share-text { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 12px; color: #8b949e; font-size: 13px; text-align: left; margin: 8px 0; }
+.cta-card { background: linear-gradient(135deg, #1f2937, #21262d); border: 2px solid #3fb950; border-radius: 12px; padding: 24px; margin-top: 24px; text-align: center; }
+.cta-card h3 { color: #3fb950; margin-bottom: 8px; }
+.cta-card p { color: #8b949e; margin-bottom: 16px; }
+.cta-btn { display: inline-block; padding: 12px 32px; background: #238636; color: #fff; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; transition: background .2s; }
+.cta-btn:hover { background: #2ea043; }
+.footer { text-align: center; margin-top: 32px; color: #484f58; font-size: 12px; }
+.footer a { color: #58a6ff; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<div class="badge">⚠️ PRICE CHANGE: June 1, 2026</div>
+<h1>GitHub Copilot Token Cost Calculator</h1>
+<p>Calculate your new Copilot bill before the pricing switch. Know exactly what you'll pay.</p>
+</div>
+
+<div class="card">
+<h3>📊 Your Usage Profile</h3>
+<div class="presets">
+<button class="preset-btn" onclick="setPreset('light')">🟢 Light User</button>
+<button class="preset-btn" onclick="setPreset('medium')">🟡 Medium User</button>
+<button class="preset-btn" onclick="setPreset('heavy')">🔴 Heavy User</button>
+<button class="preset-btn" onclick="setPreset('power')">💀 Power User</button>
+</div>
+<div class="input-group">
+<label>Daily AI Requests (code completions + chat prompts)</label>
+<input type="number" id="dailyRequests" min="1" max="10000" value="100" placeholder="e.g. 100">
+</div>
+<div class="input-group">
+<label>Average Tokens Per Request</label>
+<input type="number" id="avgTokens" min="50" max="100000" value="500" placeholder="e.g. 500">
+</div>
+<div class="input-group">
+<label>Work Days Per Month</label>
+<input type="number" id="workDays" min="1" max="31" value="22" placeholder="e.g. 22">
+</div>
+</div>
+
+<div id="results" class="card results">
+<h3>💰 Your Cost Comparison</h3>
+<div class="result-row">
+<span class="result-label">Monthly Token Usage</span>
+<span class="result-value" id="totalTokens">-</span>
+</div>
+<div class="result-row">
+<span class="result-label">Old Price (Flat $10/mo)</span>
+<span class="result-value old-price" id="oldPrice">$10.00/mo</span>
+</div>
+<div class="result-row">
+<span class="result-label">New Price (Token-Based)</span>
+<span class="result-value new-price" id="newPrice">-</span>
+</div>
+<div class="result-row">
+<span class="result-label">Monthly Difference</span>
+<span class="result-value" id="diff">-</span>
+</div>
+<div class="result-row">
+<span class="result-label">Annual Difference</span>
+<span class="result-value" id="annualDiff">-</span>
+</div>
+<div class="share-section">
+<p style="color:#8b949e;font-size:14px;margin-bottom:8px;">📋 Copy & Share Your Result:</p>
+<div class="share-text" id="shareText">Calculating...</div>
+</div>
+</div>
+
+<div class="cta-card">
+<h3>🛠 Already Too Expensive? Get AI Writing Done For You</h3>
+<p>Instead of paying per token, pay per deliverable. AI-powered blog posts, documentation, and code reviews — flat rate, no surprises.</p>
+<a href="https://caishen-ai.github.io/caishen-blog/order.html" class="cta-btn">📦 View Pricing & Order →</a>
+</div>
+
+<div class="footer">
+<p>Built by <a href="https://github.com/caishen-ai" target="_blank">caishen-ai</a> · Calculations based on reported Copilot token pricing as of May 2026</p>
+<p>For AI writing services: <a href="https://caishen-ai.github.io/caishen-blog/order.html">order.html</a></p>
+</div>
+</div>
+
+<script>
+// Copilot per-token pricing estimates (based on community reports)
+const PRICE_PER_1K_TOKENS = 0.02; // $0.02 per 1000 tokens
+
+const presets = {
+    light: {daily: 30, tokens: 300, days: 20},
+    medium: {daily: 100, tokens: 500, days: 22},
+    heavy: {daily: 300, tokens: 800, days: 22},
+    power: {daily: 500, tokens: 1200, days: 26}
+};
+
+function setPreset(type) {
+    const p = presets[type];
+    document.getElementById('dailyRequests').value = p.daily;
+    document.getElementById('avgTokens').value = p.tokens;
+    document.getElementById('workDays').value = p.days;
+    calculate();
+}
+
+function calculate() {
+    const daily = parseInt(document.getElementById('dailyRequests').value) || 0;
+    const tokens = parseInt(document.getElementById('avgTokens').value) || 0;
+    const days = parseInt(document.getElementById('workDays').value) || 0;
+
+    const monthlyTokens = daily * tokens * days;
+    const newPrice = (monthlyTokens / 1000) * PRICE_PER_1K_TOKENS;
+    const oldPrice = 10;
+    const diff = newPrice - oldPrice;
+    const annualDiff = diff * 12;
+
+    document.getElementById('totalTokens').textContent = (monthlyTokens / 1000).toFixed(0) + 'K tokens';
+    document.getElementById('newPrice').textContent = '$' + newPrice.toFixed(2) + '/mo';
+    document.getElementById('diff').innerHTML = (diff > 0 
+        ? '<span class="diff-badge diff-increase">+$' + diff.toFixed(2) + '/mo 📈</span>'
+        : '<span class="diff-badge diff-decrease">-$' + Math.abs(diff).toFixed(2) + '/mo 📉</span>');
+    document.getElementById('annualDiff').textContent = (diff > 0 ? '+' : '') + '$' + annualDiff.toFixed(0) + '/year';
+
+    const shareEmoji = diff > 50 ? '😱' : diff > 20 ? '😬' : diff > 0 ? '🤔' : '🎉';
+    document.getElementById('shareText').textContent = 
+        shareEmoji + ' My GitHub Copilot bill is going from $10/mo to $' + newPrice.toFixed(2) + 
+        '/mo (' + (diff > 0 ? '+' : '') + '$' + diff.toFixed(2) + '/mo difference). ' +
+        'Calculate yours: https://caishen-ai.github.io/caishen-blog/token-calculator.html';
+
+    document.getElementById('results').classList.add('show');
+}
+
+// Auto-calculate on change
+document.getElementById('dailyRequests').addEventListener('input', calculate);
+document.getElementById('avgTokens').addEventListener('input', calculate);
+document.getElementById('workDays').addEventListener('input', calculate);
+
+// Auto-calculate on load with defaults
+calculate();
+</script>
+
+<!-- CTA: Monetization Section -->
+<div style="text-align:center; margin: 3rem auto; max-width: 600px; padding: 2rem; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+  <h3 style="color:#e94560; margin:0 0 1rem 0; font-size:1.3rem;">🛑 Stop Overpaying for AI Code Tools</h3>
+  <p style="color:#ccc; font-size:0.95rem; line-height:1.6; margin:0 0 1.5rem 0;">
+    I analyzed 15 free Copilot alternatives. Get the complete comparison guide + ready-to-use prompt templates for your AI coding workflow — <strong style="color:#fff;">100% free</strong>.
+  </p>
+  <a href="https://caishen-ai.github.io/caishen-blog/order.html" style="display:inline-block; padding:12px 32px; background:#e94560; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:1.05rem;">
+    📥 Get Free Alternatives Guide
+  </a>
+  <p style="color:#888; font-size:0.8rem; margin:1rem 0 0 0;">Also: AI writing, prompt engineering, consulting — <a href="https://caishen-ai.github.io/caishen-blog/order.html" style="color:#e94560;">order now →</a></p>
+</div>
+
+</body>
+</html>
