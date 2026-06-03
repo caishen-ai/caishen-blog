@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Repo Analyzer - Free Project Insights</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
+  .container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+  .hero { text-align: center; padding: 3rem 0 2rem; }
+  .hero h1 { font-size: 2.2rem; color: #0f172a; margin-bottom: 0.5rem; }
+  .hero p { color: #64748b; font-size: 1.1rem; max-width: 500px; margin: 0 auto; }
+  .input-box { display: flex; gap: 0.5rem; max-width: 600px; margin: 0 auto; }
+  .input-box input { flex: 1; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; outline: none; transition: border-color 0.2s; }
+  .input-box input:focus { border-color: #4f46e5; }
+  .input-box button { padding: 0.75rem 1.5rem; background: #4f46e5; color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+  .input-box button:hover { background: #4338ca; transform: translateY(-1px); }
+  .input-box button:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; }
+  .result { margin-top: 2rem; }
+  .card { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid #f1f5f9; }
+  .card h3 { font-size: 1.1rem; color: #0f172a; margin-bottom: 0.75rem; }
+  .stat-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .stat { background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.9rem; }
+  .stat strong { color: #4f46e5; }
+  .tag { display: inline-block; background: #eef2ff; color: #4338ca; padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.8rem; margin: 0.2rem; }
+  .cta-box { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; border-radius: 16px; padding: 2rem; text-align: center; margin-top: 2rem; }
+  .cta-box h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .cta-box p { opacity: 0.9; margin-bottom: 1.2rem; }
+  .cta-box a, .cta-box button { display: inline-block; background: white; color: #4f46e5; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; font-size: 1rem; transition: transform 0.1s; }
+  .cta-box a:hover, .cta-box button:hover { transform: scale(1.03); }
+  .loading { text-align: center; padding: 2rem; color: #64748b; }
+  .error { color: #dc2626; text-align: center; padding: 1rem; }
+  .footer { text-align: center; padding: 2rem 0; color: #94a3b8; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <h1>馃攳 GitHub Repo Analyzer</h1>
+    <p>Paste any GitHub repo URL and instantly get structured insights 鈥?stars, activity, tech stack, and more.</p>
+  </div>
+
+  <div class="input-box">
+    <input type="text" id="repoUrl" placeholder="https://github.com/facebook/react" />
+    <button id="analyzeBtn" onclick="analyze()">Analyze</button>
+  </div>
+  <div id="result" class="result"></div>
+
+  <div class="cta-box" id="ctaBox" style="display:none">
+    <h3>馃殌 Want deeper analysis?</h3>
+    <p>Get a custom architecture review, code quality audit, or migration plan for this repo.</p>
+    <a href="https://caishen-ai.github.io/caishen-blog/order.html">Get Professional Review 鈫?楼19.90</a>
+  </div>
+
+  <div class="footer">
+    Built by <a href="https://github.com/caishen-ai" style="color:#4f46e5">caishen-ai</a> 路 Free to use 路 No signup required
+  </div>
+</div>
+
+<script>
+async function analyze() {
+  const url = document.getElementById('repoUrl').value.trim();
+  const resultDiv = document.getElementById('result');
+  const btn = document.getElementById('analyzeBtn');
+  const ctaBox = document.getElementById('ctaBox');
+
+  if (!url) return;
+
+  // Parse owner/repo from URL
+  const match = url.match(/github\.com\/([^\/]+)\/([^\/#?]+)/);
+  if (!match) {
+    resultDiv.innerHTML = '<div class="error">Please enter a valid GitHub repo URL (e.g., https://github.com/facebook/react)</div>';
+    return;
+  }
+
+  const [_, owner, repo] = match;
+  const cleanRepo = repo.replace(/\.git$/, '');
+
+  btn.disabled = true;
+  btn.textContent = 'Analyzing...';
+  resultDiv.innerHTML = '<div class="loading">Fetching repo data...</div>';
+
+  try {
+    const resp = await fetch(`https://api.github.com/repos/${owner}/${cleanRepo}`);
+    if (!resp.ok) throw new Error(`Repo not found or API rate limited (${resp.status})`);
+    const data = await resp.json();
+
+    const languagesResp = await fetch(`https://api.github.com/repos/${owner}/${cleanRepo}/languages`);
+    const languages = await languagesResp.json();
+    const langList = Object.entries(languages).sort((a,b) => b[1] - a[1]).slice(0,6);
+    const totalBytes = Object.values(languages).reduce((s,v) => s+v, 0);
+
+    const created = new Date(data.created_at).toLocaleDateString('en-US', {year:'numeric', month:'short'});
+    const updated = new Date(data.updated_at).toLocaleDateString('en-US', {year:'numeric', month:'short'});
+    const pushed = new Date(data.pushed_at).toLocaleDateString('en-US', {year:'numeric', month:'short'});
+
+    let health = '馃煝 Active';
+    const daysSincePush = (Date.now() - new Date(data.pushed_at).getTime()) / (1000*60*60*24);
+    if (daysSincePush > 180) health = '馃敶 Inactive (6mo+)';
+    else if (daysSincePush > 90) health = '馃煛 Low activity';
+    else if (daysSincePush < 7) health = '馃煝 Very active';
+
+    let maturity = '馃煛 Mid-stage';
+    const daysSinceCreated = (Date.now() - new Date(data.created_at).getTime()) / (1000*60*60*24);
+    if (daysSinceCreated > 730) maturity = '馃煝 Mature (2yr+)';
+    else if (daysSinceCreated < 90) maturity = '馃煝 New project';
+
+    resultDiv.innerHTML = `
+      <div class="card">
+        <h3>${data.full_name}</h3>
+        <p style="color:#64748b;margin-bottom:1rem">${data.description || 'No description'}</p>
+        <div class="stat-row">
+          <div class="stat">猸?<strong>${data.stargazers_count.toLocaleString()}</strong> stars</div>
+          <div class="stat">馃嵈 <strong>${data.forks_count.toLocaleString()}</strong> forks</div>
+          <div class="stat">馃憖 <strong>${data.watchers_count.toLocaleString()}</strong> watchers</div>
+          <div class="stat">馃悰 <strong>${data.open_issues_count.toLocaleString()}</strong> open issues</div>
+        </div>
+        <div style="margin-top:0.75rem">
+          <div class="stat">馃搮 Created: ${created}</div>
+          <div class="stat">馃攧 Last push: ${pushed}</div>
+          <div class="stat">馃彞 ${health}</div>
+          <div class="stat">馃搳 ${maturity}</div>
+        </div>
+        ${data.license ? `<div style="margin-top:0.75rem">馃摐 License: <strong>${data.license.name || data.license.spdx_id}</strong></div>` : ''}
+        ${data.homepage ? `<div style="margin-top:0.5rem">馃敆 Homepage: <a href="${data.homepage}" target="_blank" style="color:#4f46e5">${data.homepage}</a></div>` : ''}
+      </div>
+      <div class="card">
+        <h3>馃洜 Tech Stack</h3>
+        <div>${langList.map(([lang, bytes]) => `<span class="tag">${lang} (${((bytes/totalBytes)*100).toFixed(1)}%)</span>`).join(' ')}</div>
+        ${data.topics && data.topics.length > 0 ? `<div style="margin-top:0.75rem">${data.topics.map(t => `<span class="tag">#${t}</span>`).join(' ')}</div>` : ''}
+      </div>
+      <div class="card">
+        <h3>馃挕 Quick Insights</h3>
+        <ul style="padding-left:1.2rem;color:#475569">
+          <li>Stars per fork ratio: <strong>${(data.stargazers_count / Math.max(1, data.forks_count)).toFixed(1)}</strong> 鈥?${data.stargazers_count / Math.max(1, data.forks_count) > 10 ? 'High community interest relative to usage' : 'Healthy fork usage'}</li>
+          <li>Issue ratio: <strong>${(data.open_issues_count / Math.max(1, data.stargazers_count) * 100).toFixed(2)}%</strong> of stars 鈥?${data.open_issues_count / Math.max(1, data.stargazers_count) < 0.01 ? 'Very well maintained' : 'Could use attention'}</li>
+          <li>Primary language: <strong>${langList[0] ? langList[0][0] : 'Unknown'}</strong> at ${langList[0] ? ((langList[0][1]/totalBytes)*100).toFixed(1) : 0}%</li>
+          <li>${data.archived ? '鈿狅笍 This repo is archived (read-only)' : '鉁?Repo is actively maintained'}</li>
+        </ul>
+      </div>
+    `;
+
+    ctaBox.style.display = 'block';
+  } catch (e) {
+    resultDiv.innerHTML = `<div class="error">${e.message.includes('rate limit') ? 'GitHub API rate limit reached. Try again later (unauthenticated: 60 req/hr).' : e.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Analyze';
+  }
+}
+
+// Allow Enter key to trigger analyze
+document.getElementById('repoUrl').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') analyze();
+});
+</script>
+</body>
+</html>
